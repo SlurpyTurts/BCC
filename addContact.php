@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>BCC Dealer List</title>
+	<title>BCC Dealer List </title>
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 	<script>
 		$(function(){
