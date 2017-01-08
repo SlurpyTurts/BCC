@@ -1,0 +1,26 @@
+doctype html
+meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/bootstrap.css')
+    script(src='/javascripts/jquery-3.1.1.min.js')
+    script(src='/javascripts/tether.min.js')
+    script(src='/javascripts/bootstrap.js')
+  body
+    nav.navbar.navbar-toggleable-sm.navbar-light.bg-faded
+      button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      a.navbar-brand(href='/') BCC
+      .collapse.navbar-collapse#navbarSupportedContent
+        ul.navbar-nav
+          li.nav-item
+            a.nav-link(href='/bom') BOM
+          li.nav-item
+            a.nav-link(href='/inventory') Inventory
+          li.nav-item
+            a.nav-link(href='/orders') Orders
+          li.nav-item
+            a.nav-link(href='/dealers') Dealers
+    .container-fluid(style='padding-top:18px')
+      block content

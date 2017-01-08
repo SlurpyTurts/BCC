@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  .row
+    .col
+    .col-md-4.col-xs-8
+      h3 Welcome to BCC
+    .col
+  .row
+    .col-lg-4
+      .card(style=' margin:5px;')
+        .card-block
+          h4.card-title Build a BOM
+          p.card-text A Bill of material is useful in order to understand pricing and item content.
+          a.btn.btn-primary(href='/bom') Go
+    .col-lg-4
+      .card(style='margin:5px;')
+        .card-block
+          h4.card-title Browse Inventory
+          p.card-text Browsing inventory to understand what is available.
+          a.btn.btn-primary(href='/inventory') Go
+    .col-lg-4
+      .card(style='margin:5px;')
+        .card-block
+          h4.card-title View Orders
+          p.card-text Get your orders here!
+          a.btn.btn-primary(href='/orders') Go
+  .row
+    .col-lg-4
+      .card(style='margin:5px;')
+        .card-block
+          h4.card-title Check Dealers
+          p.card-text Checkout some dealers
+          a.btn.btn-primary(href='/dealers') Go
