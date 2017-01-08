@@ -1,8 +1,14 @@
-# bcc-api
+# bcc-site
 
-This API is the data tier for the BCC project. It proves a REST API for all interactions
-and data interaction.
+This is a node express based site for BCC. Node express was chosen because it provided one solution for UI and backend, offers many online tutorials and help, and has a small learning curve.
 
+# Project structure
+
+##routes
+  Handles collecting data, DB queries, stuff like that. Once the appropriate data is gathered, a view is picked to render the data.
+
+##views
+  Handles display of the data
 
 # Get up and running
 
