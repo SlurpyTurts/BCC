@@ -1,0 +1,4 @@
+.eggs
+*.pyc
+bcc.db
+bcc_site.egg-info
