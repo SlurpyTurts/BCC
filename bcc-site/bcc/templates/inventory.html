@@ -1,4 +1,32 @@
 {% extends "layout.html" %}
 {% block body %}
 <h3>Inventory content goes here</h3>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Part Number</th>
+      <th>Quantity</th>
+      <th>Location From</th>
+      <th>Location To</th>
+        <th>Note</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in inventory_items %}
+    <tr>
+        <th scope="row"><a href="/parts/{{item.partNumber}}">{{ item.partNumber }}</a></th>
+      <td>{{ item.quantity }}</td>
+      <td>{{ item.locationFrom }}</td>
+      <td>{{ item.locationTo }}</td>
+        <td>{{ item.Note }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+
+
+
+
 {% endblock %}

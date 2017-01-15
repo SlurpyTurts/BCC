@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="row">
+    <div class="col-sm-8">
+        <h1>{{ part.partNumber}}</h1>
+    </div>
+    <div class="col">
+        {% if part.status == 'ACTIVE' %}
+        <div class="alert alert-success" role="alert">
+            <strong>ACTIVE</strong> This part is active
+        </div>
+        {% else %}
+        <div class="alert alert-danger" role="alert">
+            <strong>{{part.status}}</strong> This part is NOT active
+        </div>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col"><h3>{{part.description}}</h3></div>
+</div>
+<div class="row">
+    <div class="col"><p><abbr title="attribute">Part Type: {{part.partType}}</abbr></p></div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card" style="margin:10px;">
+            <div class="card-block">
+                <h4>Pricing</h4>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Desc</th>
+                        <th>Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">Dealer</th>
+                        <td>{{part.dealerPrice}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Distributor</th>
+                        <td>{{part.distributorPrice}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

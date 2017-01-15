@@ -8,13 +8,12 @@
 """
 
 import os
-#TODO hook in a mysql client
-#from sqlite3 import dbapi2 as sqlite3
+
+from dataaccess import inventory_repository, part_repository
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 
 
-# create our little application :)
 app = Flask(__name__)
 
 # Load default config and override config from an environment variable
@@ -24,6 +23,9 @@ app.config.update(dict(
     USERNAME='admin',
     PASSWORD='default'
 ))
+
+inv_repo = inventory_repository.InventoryRepository()
+part_repo = part_repository.PartRepository()
 
 @app.route('/')
 def home_page():
@@ -35,7 +37,27 @@ def bom_builder_page():
 
 @app.route('/inventory')
 def inventory_page():
-    return render_template('inventory.html')
+
+    return render_template('inventory.html', inventory_items=inv_repo.get_inventory_list())
+
+@app.route('/parts/<int:part_number>')
+def part_detail(part_number):
+    return render_template('part_detail.html', part=part_repo.get_part_by_part_number(part_number))
+
+
+@app.route('/parts')
+def part_search():
+    part_prefix=request.args.get('part_prefix')
+    if part_prefix:
+        return render_template('part_search.html', searchresults=part_repo.get_parts_by_part_number_prefix(part_prefix))
+
+    part_description=request.args.get('description')
+    if part_description:
+        return render_template('part_search.html', searchresults=part_repo.get_parts_by_description(part_description))
+
+    return render_template('part_search.html')
+
+
 
 @app.route('/orders')
 def orders_page():

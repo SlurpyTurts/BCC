@@ -15,7 +15,7 @@ This project requires python and pip to be installed. Most likely you already ha
 These commands are only needed the first time you setup the project. After this, don't worry about it.
 
     pip install flask
-    sudo  pip install --editable .
+    pip install --editable .
 
 ## Development
 
@@ -29,3 +29,14 @@ The site should now be running on port 5000
 ## Testing
 
 Run `python setup.py test` to see the tests pass.
+
+## Database connectivity
+
+For database connectivity we use PyMySQL. Check out the docs here.
+
+https://github.com/PyMySQL/PyMySQL
+
+## A note about third party libaries
+
+If you are need another library in the future, make sure to add it to the `setup.py` and then simply run `pip install --editable .`. This command
+reads dependencies declared in the setup file and automatically installs them.

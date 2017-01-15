@@ -2,3 +2,6 @@
 *.pyc
 bcc.db
 bcc_site.egg-info
+.idea
+bcc.egg-info
+.cache
