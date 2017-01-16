@@ -6,13 +6,13 @@
     <h3>BOM Builder</h3>
     <div class="input-group">
       <span class="input-group-addon" id="part-number-addon">Part Number</span>
-      <input class="form-control" type="text" aria-describedby="part-number-addon" id="part-number"/>
+      <input class="form-control" type="text" aria-describedby="part-number-addon" id="part-number" value="{{part_number}}"/>
       <span class="input-group-btn"/>
     </div>
 
     <div class="input-group" style="margin-top:10px;">
       <span class="input-group-addon" id="part-desc-addon">Levels to Show</span>
-      <select id="bom_levels" class="form-control" type="text" aria-describedby="part-desc-addon" id="part-desc-search">
+      <select id="bom_levels" class="form-control" type="text"  selected="{{levels}}" aria-describedby="part-desc-addon" id="part-desc-search">
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -30,6 +30,7 @@
 </div>
 
 
+{% if bom_items %}
 <!--- rendering BOM Visual -->
 
 <div class="row">
@@ -75,9 +76,12 @@
 
 // create an array with nodes
 var nodes = new vis.DataSet([
-{id: '{{part_number}}', label: '{{part_number}}', group: 0 },
+{id: '{{part_number}}', label: '{{part_number}}', group: 0, value: 1 },
 {% for bom_item in bom_items %}
-{id: '{{bom_item.bom.child}}' + '-' + '{{bom_item.level}}' , label: '{{bom_item.bom.child}}' + ' level ' + '{{bom_item.level}}', group: {{bom_item.level}} },
+{id: '{{bom_item.bom.child}}' + '-' + '{{bom_item.level}}' ,
+ label: '{{bom_item.bom.child}}' + ' level ' + '{{bom_item.level}}',
+  group: {{bom_item.level}},
+  value: {{bom_item.bom.quantity}} },
 {% endfor %}
 ]);
 
@@ -142,4 +146,5 @@ var network = new vis.Network(container, data, options);
 });
 </script>
 
+{% endif %}
 {% endblock %}
