@@ -9,7 +9,7 @@
 
 import os
 
-from dataaccess import inventory_repository, part_repository
+from dataaccess import inventory_repository, part_repository, bom_repository
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 
@@ -26,6 +26,7 @@ app.config.update(dict(
 
 inv_repo = inventory_repository.InventoryRepository()
 part_repo = part_repository.PartRepository()
+bom_repo = bom_repository.BomRepository()
 
 @app.route('/')
 def home_page():
@@ -33,6 +34,10 @@ def home_page():
 
 @app.route('/bom')
 def bom_builder_page():
+    part_number = request.args.get('part_number')
+    levels = request.args.get('levels')
+    if part_number and levels:
+        return render_template('bom.html', bom_items=bom_repo.get_bom_of_parent(part_number, int(levels)), part_number=part_number)
     return render_template('bom.html')
 
 @app.route('/inventory')
