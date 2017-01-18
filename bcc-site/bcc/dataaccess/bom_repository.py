@@ -35,6 +35,6 @@ class BomRepository:
             bom_item = bom_item_queue.pop()
             if bom_item.level < levels_to_show:
                 for result in self.get_children_of_parent(bom_item.bom['child'], bom_item.level + 1):
-                    bom_item_queue.insert(0, result)
+                    bom_item_queue.append(result)
             completed_bom_items.append(bom_item)
         return completed_bom_items

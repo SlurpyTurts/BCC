@@ -37,7 +37,9 @@ def bom_builder_page():
     part_number = request.args.get('part_number')
     levels = request.args.get('levels')
     if part_number and levels:
-        return render_template('bom.html', bom_items=bom_repo.get_bom_of_parent(part_number, int(levels)), part_number=part_number, levels=levels)
+        bom_items=bom_repo.get_bom_of_parent(part_number, int(levels))
+        print('number of bom items ' + str(len(bom_items)))
+        return render_template('bom.html', bom_items=bom_items, part_number=part_number, levels=levels)
     return render_template('bom.html')
 
 @app.route('/inventory')
