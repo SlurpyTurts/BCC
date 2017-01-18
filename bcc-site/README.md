@@ -14,14 +14,13 @@ This project requires python and pip to be installed. Most likely you already ha
 
 These commands are only needed the first time you setup the project. After this, don't worry about it.
 
-    pip install flask
-    pip install --editable .
+    ./first_time_setup.sh
 
 ## Development
 
 If you have a new terminal open you have to run
 
-  export FLASK_APP=bcc && flask run
+    ./run.sh
 
 The site should now be running on port 5000
 
