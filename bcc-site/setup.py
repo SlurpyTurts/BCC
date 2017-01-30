@@ -6,7 +6,8 @@ setup(
     include_package_data=True,
     install_requires=[
         'flask',
-        'PyMySQL'
+        'PyMySQL',
+        'unittest2'
     ],
     setup_requires=[
         'pytest-runner'
