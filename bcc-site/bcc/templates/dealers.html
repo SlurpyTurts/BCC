@@ -1,4 +1,26 @@
 {% extends "layout.html" %}
 {% block body %}
 <h3>Dealer content goes here</h3>
+<div class="row">
+  <div class="col">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Dealer Name</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for dealer in dealers %}
+      <tr>
+        <td>{{ dealer.id }}</td>
+        <td>{{ dealer.dealerName }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+
+  </div>
+</div>
 {% endblock %}

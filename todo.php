@@ -27,18 +27,18 @@
 	$connectfile = "connect.php";
 	require $connectfile;
 
-  $todoQuery = "SELECT * FROM todo ORDER BY dateCompleted DESC, dateAdded ASC";
+  $todoQuery = "SELECT * FROM todo ORDER BY category, dateCompleted DESC, dateAdded ASC";
   $todoResult = $conn->query($todoQuery);
 
   if($todoResult->num_rows > 0){
     echo "<table>";
-    echo "<th>Description</th><th>Date Added</th><th>Date Completed</th>";
+    echo "<th>Category</th><th>Description</th><th>Date Added</th><th>Date Completed</th>";
     while($todo = $todoResult->fetch_row()){
-      echo "<tr><td>".$todo[1]."</td><td>".$todo[2]."</td><td>".$todo[3]."</td></tr>";
+      echo "<tr><td>".$todo[1]."</td><td>".$todo[2]."</td><td>".$todo[3]."</td><td>".$todo[4]."</td></tr>";
     }
     echo "</table>";
 
-    echo "<a href='dealerInfoEdit.php'></a>";
+		echo "<a href='newTodo.php'>NEW</a>";
 
   }
 ?>

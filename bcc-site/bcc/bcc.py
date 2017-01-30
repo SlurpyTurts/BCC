@@ -9,7 +9,7 @@
 
 import os
 
-from dataaccess import inventory_repository, part_repository, bom_repository
+from dataaccess import inventory_repository, part_repository, bom_repository, dealer_repository
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 
@@ -27,6 +27,7 @@ app.config.update(dict(
 inv_repo = inventory_repository.InventoryRepository()
 part_repo = part_repository.PartRepository()
 bom_repo = bom_repository.BomRepository()
+dealer_repo = dealer_repository.DealerRepository()
 
 @app.route('/')
 def home_page():
@@ -72,7 +73,8 @@ def orders_page():
 
 @app.route('/dealers')
 def dealers_page():
-    return render_template('dealers.html')
+    dealers = dealer_repo.get_dealer_list(0, 5)
+    return render_template('dealers.html', dealers)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
