@@ -1,26 +1,49 @@
 {% extends "layout.html" %}
 {% block body %}
-<h3>Dealer content goes here</h3>
-<div class="row">
-  <div class="col">
-    <table class="table">
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Dealer Name</th>
-      </tr>
-      </thead>
-      <tbody>
-      {% for dealer in dealers %}
-      <tr>
-        <td>{{ dealer.id }}</td>
-        <td>{{ dealer.dealerName }}</td>
-      </tr>
-      {% endfor %}
-      </tbody>
-    </table>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          {% if page == 1 %}
+          <li class="page-item disabled"><a class="page-link" href="/dealers?page={{page-1}}">Previous</a></li>
+          {% else %}
+          <li class="page-item"><a class="page-link" href="/dealers?page={{page-1}}">Previous</a></li>
+          {% endif %}
+          {% for i in range(1, max_page) %}
+          <li class="page-item"><a class="page-link" href="/dealers?page={{i}}">{{i}}</a></li>
+          {% endfor %}
+          <!--
+          <li class="page-item"><a class="page-link" href="/dealers?page=1">1</a></li>
+          <li class="page-item"><a class="page-link" href="/dealers?page=2">2</a></li>
+          <li class="page-item"><a class="page-link" href="/dealers?page=3">3</a></li>
+          -->
+          {% if page == max_page %}
+          <li class="page-item disabled"><a class="page-link" href="/dealers?page={{page+1}}">Next</a></li>
+          {% else %}
+          <li class="page-item"><a class="page-link" href="/dealers?page={{page+1}}">Next</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Dealer Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for dealer in dealers %}
+        <tr>
+          <td>{{ dealer.id }}</td>
+          <td>{{ dealer.dealerName }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
 
 
+    </div>
   </div>
 </div>
 {% endblock %}

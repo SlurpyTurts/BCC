@@ -73,8 +73,16 @@ def orders_page():
 
 @app.route('/dealers')
 def dealers_page():
-    dealers = dealer_repo.get_dealer_list(0, 5)
-    return render_template('dealers.html', dealers)
+    page = request.args.get('page')
+    if page is None:
+        page = 1
+    else:
+        page = int(page)
+    if page < 1:
+       page = 1
+    number_of_dealers = 5
+    dealer_start = (page - 1) * number_of_dealers
+    return render_template('dealers.html', dealers=dealer_repo.get_dealer_list(dealer_start, number_of_dealers), page = page, max_page = 5)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
