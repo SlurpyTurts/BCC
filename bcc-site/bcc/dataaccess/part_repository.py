@@ -9,7 +9,7 @@ class PartRepository:
         connection = db_connection.get_connection()
         try:
             with connection.cursor() as cursor:
-                sql = "SELECT * FROM bcc.part where partNumber = %s"
+                sql = "SELECT part.partNumber, part.description, part.partTypeSubClass1, part.partTypeSubClass2, part.partTypeSubClass3, part.partTypeSubClass1, part.dateAdded, part.unit, part.status, partStatus.statusName FROM part INNER JOIN partStatus ON part.status = partStatus.id WHERE partNumber = %s;"
                 cursor.execute(sql, part_number)
 
                 return cursor.fetchone()

@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% block body %}
+<br>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col">
+
+        {% for dealer in dealers %}
+        Dealer Name: {{ dealer.dealerName }}
+        <br>
+        Website: <a href = "{{ dealer.dealerWebsite }}">{{ dealer.dealerWebsite }}</a>
+        <br>
+        <br>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Shipping</th>
+                    <th>Billing</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% if not dealer.shippingAddressLine1 %}
+                    <td></td>
+                    {% else %}
+                    <td>{{ dealer.shippingAddressLine1 }}</td>
+                    {% endif %}
+                    {% if not dealer.billingAddressLine1 %}
+                    <td></td>
+                    {% else %}
+                    <td>{{ dealer.billingAddressLine1 }}</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    {% if not dealer.shippingAddressLine2 %}
+                    <td></td>
+                    {% else %}
+                    <td>{{ dealer.shippingAddressLine2 }}</td>
+                    {% endif %}
+                    {% if not dealer.billingAddressLine2 %}
+                    <td></td>
+                    {% else %}
+                    <td>{{ dealer.billingAddressLine2 }}</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    {% if not dealer.shippingCity or not dealer.shippingState or not dealer.shippingZip or not dealer.shippingCountry %}
+                    <td></td>
+                    {% else %}
+                    <td>{{ dealer.shippingCity }}, {{ dealer.shippingState }} {{ dealer.shippingZip }} {{ dealer.shippingCountry }}</td>
+                    {% endif %}
+                    {% if not dealer.billingCity or not dealer.billingState or not dealer.billingZip or not dealer.billingCountry %}
+                    <td></td>
+                    {% else %}
+                    <td>{{ dealer.billingCity }}, {{ dealer.billingState }} {{ dealer.billingZip }} {{ dealer.billingCountry }}</td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+        {% endfor %}
+
+
+        <br>
+        <br>
+        Orders:
+        <br>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order Number</th>
+                    <th>Customer Name</th>
+                    <th>Invoice Status</th>
+                    <th>Sent Date</th>
+                    <th>Order Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in dealerOrders %}
+                <tr>
+                    <td><a href = "http://localhost:5000/orders/{{ order.orderNumber }}">{{ order.orderNumber }}</a></td>
+                    <td>{{ order.lastName }}</td>
+                    <td>{{ order.invoiceStatus }}</td>
+                    <td>{{ order.invoiceSentDate }}</td>
+                    <td>{{ order.orderDate }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

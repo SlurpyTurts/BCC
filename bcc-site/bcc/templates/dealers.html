@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
+<br>
+<br>
 <div class="container">
   <div class="row">
     <div class="col">
@@ -13,11 +15,6 @@
           {% for i in range(1, max_page) %}
           <li class="page-item"><a class="page-link" href="/dealers?page={{i}}">{{i}}</a></li>
           {% endfor %}
-          <!--
-          <li class="page-item"><a class="page-link" href="/dealers?page=1">1</a></li>
-          <li class="page-item"><a class="page-link" href="/dealers?page=2">2</a></li>
-          <li class="page-item"><a class="page-link" href="/dealers?page=3">3</a></li>
-          -->
           {% if page == max_page %}
           <li class="page-item disabled"><a class="page-link" href="/dealers?page={{page+1}}">Next</a></li>
           {% else %}
@@ -35,8 +32,12 @@
         <tbody>
         {% for dealer in dealers %}
         <tr>
-          <td>{{ dealer.id }}</td>
-          <td>{{ dealer.dealerName }}</td>
+          <td><a href = "http://localhost:5000/dealers/{{ dealer.id }}">{{ dealer.dealerName }}</a></td>
+          {% if not dealer.dealerWebsite %}
+          <td></td>
+          {% else %}
+          <td><a href = "{{ dealer.dealerWebsite }}">{{ dealer.dealerWebsite }}</a></td>
+          {% endif %}
         </tr>
         {% endfor %}
         </tbody>

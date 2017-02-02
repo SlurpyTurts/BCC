@@ -3,13 +3,13 @@
     BCC
     ~~~~~~
 
-    A site designed to manage parts, orders, and inventry.
+    A site designed to manage parts, orders, and inventory.
 
 """
 
 import os
 
-from dataaccess import inventory_repository, part_repository, bom_repository, dealer_repository
+from dataaccess import inventory_repository, part_repository, bom_repository, dealer_repository, dealer_detail_repository, order_detail_repository, order_overview_repository, supplier_repository
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 
@@ -28,10 +28,16 @@ inv_repo = inventory_repository.InventoryRepository()
 part_repo = part_repository.PartRepository()
 bom_repo = bom_repository.BomRepository()
 dealer_repo = dealer_repository.DealerRepository()
+dealer_detail_repo = dealer_detail_repository.DealerDetailRepository()
+order_detail_repo = order_detail_repository.OrderDetailRepository()
+order_overview_repo = order_overview_repository.OrderOverviewRepository()
+supplier_repo = supplier_repository.SupplierRepository()
 
 @app.route('/')
 def home_page():
     return render_template('index.html')
+
+
 
 @app.route('/bom')
 def bom_builder_page():
@@ -43,15 +49,18 @@ def bom_builder_page():
         return render_template('bom.html', bom_items=bom_items, part_number=part_number, levels=levels)
     return render_template('bom.html')
 
+
+
 @app.route('/inventory')
 def inventory_page():
 
     return render_template('inventory.html', inventory_items=inv_repo.get_inventory_list())
 
+
+
 @app.route('/parts/<int:part_number>')
 def part_detail(part_number):
-    return render_template('part_detail.html', part=part_repo.get_part_by_part_number(part_number))
-
+    return render_template('part_detail.html', part = part_repo.get_part_by_part_number(part_number), supplierParts = supplier_repo.get_supplier_parts_by_part(part_number))
 
 @app.route('/parts')
 def part_search():
@@ -69,7 +78,20 @@ def part_search():
 
 @app.route('/orders')
 def orders_page():
-    return render_template('orders.html')
+    return render_template('order_overview.html', orders = order_overview_repo.get_order_overview())
+
+@app.route('/orders/<int:order_number>')
+def order_detail_page(order_number):
+    return render_template('order_detail.html', order = order_detail_repo.get_order_lines(order_number), payments = order_detail_repo.get_order_payments(order_number))
+
+
+
+@app.route('/suppliers')
+def suppliers_page():
+    return render_template('supplier_overview.html')
+
+
+
 
 @app.route('/dealers')
 def dealers_page():
@@ -82,7 +104,13 @@ def dealers_page():
        page = 1
     number_of_dealers = 5
     dealer_start = (page - 1) * number_of_dealers
-    return render_template('dealers.html', dealers=dealer_repo.get_dealer_list(dealer_start, number_of_dealers), page = page, max_page = 5)
+    return render_template('dealers.html', dealers = dealer_repo.get_dealer_list(dealer_start, number_of_dealers), page = page, max_page = 5)
+
+@app.route('/dealers/<int:dealer_id>')
+def dealer_detail_page(dealer_id):
+    return render_template('dealer_detail.html', dealers = dealer_detail_repo.get_dealer_detail(dealer_id), dealerOrders = dealer_detail_repo.get_order_list(dealer_id))
+
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

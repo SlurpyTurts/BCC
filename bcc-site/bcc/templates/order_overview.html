@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <br>
+            <br>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Order Number</th>
+                        <th>Order Date</th>
+                        <th>Customer</th>
+                        <th>Dealer</th>
+                        <th>Terms</th>
+                        <th>Invoice Sent Date</th>
+                        <th>Invoice Status</th>
+                        <th>Invoice Amount</th>
+                        <th>Unpaid Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td><a href="http://localhost:5000/orders/{{ order.orderNumber }}">{{ order.orderNumber }}</a></td>
+                        <td>{{ order.orderDate }}</td>
+                        <td>{{ order.firstName }} {{ order.lastName }}</td>
+                        <td><a href="http://localhost:5000/dealers/{{ order.dealerid }}">{{ order.dealerName }}</a></td>
+                        <td>{{ order.termsDescription }}</td>
+                        <td>{{ order.invoiceSentDate }}</td>
+                        <td>{{ order.invoiceStatus }}</td>
+                        <td>{{ order.orderTotal }}</td>
+                        <td>{{ order.orderDiscount }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
