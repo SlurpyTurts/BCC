@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-<br>
-<br>
+<div class="col" style="margin-top:60px"/>
 <div class="container">
   <div class="row">
     <div class="col">
@@ -79,7 +78,7 @@
             <tbody>
                 {% for order in dealerOrders %}
                 <tr>
-                    <td><a href = "http://localhost:5000/orders/{{ order.orderNumber }}">{{ order.orderNumber }}</a></td>
+                    <td><a href = "orders/{{ order.orderNumber }}">{{ order.orderNumber }}</a></td>
                     <td>{{ order.lastName }}</td>
                     <td>{{ order.invoiceStatus }}</td>
                     <td>{{ order.invoiceSentDate }}</td>

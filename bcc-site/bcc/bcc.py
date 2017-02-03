@@ -9,7 +9,7 @@
 
 import os
 
-from dataaccess import inventory_repository, part_repository, bom_repository, dealer_repository, dealer_detail_repository, order_detail_repository, order_overview_repository, supplier_repository
+from dataaccess import inventory_repository, part_repository, bom_repository, dealer_repository, order_repository, supplier_repository, todo_repository
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 
@@ -28,10 +28,9 @@ inv_repo = inventory_repository.InventoryRepository()
 part_repo = part_repository.PartRepository()
 bom_repo = bom_repository.BomRepository()
 dealer_repo = dealer_repository.DealerRepository()
-dealer_detail_repo = dealer_detail_repository.DealerDetailRepository()
-order_detail_repo = order_detail_repository.OrderDetailRepository()
-order_overview_repo = order_overview_repository.OrderOverviewRepository()
+order_repo = order_repository.OrderRepository()
 supplier_repo = supplier_repository.SupplierRepository()
+todo_repo = todo_repository.TodoRepository()
 
 @app.route('/')
 def home_page():
@@ -60,7 +59,7 @@ def inventory_page():
 
 @app.route('/parts/<int:part_number>')
 def part_detail(part_number):
-    return render_template('part_detail.html', part = part_repo.get_part_by_part_number(part_number), supplierParts = supplier_repo.get_supplier_parts_by_part(part_number))
+    return render_template('part_detail.html', part=part_repo.get_part_by_part_number(part_number), supplier_parts=supplier_repo.get_supplier_parts_by_part(part_number))
 
 @app.route('/parts')
 def part_search():
@@ -76,13 +75,17 @@ def part_search():
 
 
 
+
+
 @app.route('/orders')
 def orders_page():
-    return render_template('order_overview.html', orders = order_overview_repo.get_order_overview())
+    return render_template('order_overview.html', orders=order_repo.get_order_overview())
 
 @app.route('/orders/<int:order_number>')
 def order_detail_page(order_number):
-    return render_template('order_detail.html', order = order_detail_repo.get_order_lines(order_number), payments = order_detail_repo.get_order_payments(order_number))
+    return render_template('order_detail.html', order=order_repo.get_order_lines(order_number), payments=order_repo.get_order_payments(order_number))
+
+
 
 
 
@@ -108,7 +111,7 @@ def dealers_page():
 
 @app.route('/dealers/<int:dealer_id>')
 def dealer_detail_page(dealer_id):
-    return render_template('dealer_detail.html', dealers = dealer_detail_repo.get_dealer_detail(dealer_id), dealerOrders = dealer_detail_repo.get_order_list(dealer_id))
+    return render_template('dealer_detail.html', dealers = dealer_repo.get_dealer_detail(dealer_id), dealerOrders = dealer_repo.get_order_list(dealer_id))
 
 
 
@@ -132,3 +135,10 @@ def logout():
     session.pop('logged_in', None)
     flash('You were logged out')
     return redirect(url_for('home_page'))
+
+
+
+
+@app.route('/todo')
+def todo_overview_page():
+    return render_template('todo.html', todos = todo_repo.get_todo_list())

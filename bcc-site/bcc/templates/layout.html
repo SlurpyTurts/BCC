@@ -11,6 +11,7 @@
   <script src="{{ url_for('static', filename='js/vis.min.js') }}" ></script>
 </head>
 <body>
+
   <div class="nav navbar navbar-toggleable-sm fixed-top navbar-inverse bg-inverse">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" >
       <span class="navbar-toggler-icon" />
@@ -35,6 +36,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/suppliers"> Suppliers </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/todo"> Todo </a>
         </li>
         {% if not session.logged_in %}
         <li class="nav-item">

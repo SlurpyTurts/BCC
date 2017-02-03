@@ -5,8 +5,10 @@ class SupplierRepository:
         connection = db_connection.get_connection()
         try:
             with connection.cursor() as cursor:
-                # Create a new record
-                sql = "SELECT supplierPart.supplierid, supplier.supplierName, supplierPart.supplierPartNumber, supplierPart.supplierLink, supplierPart.purchaseUnitPrice, supplierPart.purchaseMOQ FROM supplierPart INNER JOIN supplier ON supplierPart.supplierid = supplier.id WHERE orgPartNumber = %s;"
+                sql = """SELECT supplierPart.supplierid, supplier.supplierName, supplierPart.supplierPartNumber, supplierPart.supplierLink, supplierPart.purchaseUnitPrice, supplierPart.purchaseMOQ
+                FROM supplierPart
+                INNER JOIN supplier ON supplierPart.supplierid = supplier.id
+                WHERE orgPartNumber = %s"""
                 cursor.execute(sql, part_number)
                 return cursor.fetchall()
         finally:

@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="col" style="margin-top:60px"/>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Date Updated</th>
+                        <th>Date Completed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for todo in todos %}
+                    <tr>
+                        <td>{{ todo.id }}</td>
+                        <td>{{ todo.category }}</td>
+                        <td>{{ todo.description }}</td>
+                        <td>{{ todo.dateUpdated }}</td>
+                        <td>{{ todo.dateCompleted }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

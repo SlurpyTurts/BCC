@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-<br>
-<br>
+<div class="col" style="margin-top:60px"/>
 <div class="container">
   <div class="row">
     <div class="col">
@@ -32,7 +31,7 @@
         <tbody>
         {% for dealer in dealers %}
         <tr>
-          <td><a href = "http://localhost:5000/dealers/{{ dealer.id }}">{{ dealer.dealerName }}</a></td>
+          <td><a href = "dealers/{{ dealer.id }}">{{ dealer.dealerName }}</a></td>
           {% if not dealer.dealerWebsite %}
           <td></td>
           {% else %}

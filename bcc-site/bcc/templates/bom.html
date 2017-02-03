@@ -1,34 +1,32 @@
 {% extends "layout.html" %}
 {% block body %}
-<br>
-<br>
+<div class="col" style="margin-top:60px"/>
 <div class="row">
-  <div class="col"></div>
-  <div class="col-6">
-    <h3>BOM Builder</h3>
-    <div class="input-group">
-      <span class="input-group-addon" id="part-number-addon">Part Number</span>
-      <input class="form-control" type="text" aria-describedby="part-number-addon" id="part-number" value="{{part_number}}"/>
-      <span class="input-group-btn"/>
-    </div>
+    <div class="col"></div>
+    <div class="col-6">
+        <h3>BOM Builder</h3>
+        <div class="input-group">
+            <span class="input-group-addon" id="part-number-addon">Part Number</span>
+            <input class="form-control" type="text" aria-describedby="part-number-addon" id="part-number" value="{{part_number}}"/>
+            <span class="input-group-btn"/>
+        </div>
 
-    <div class="input-group" style="margin-top:10px;">
-      <span class="input-group-addon" id="part-desc-addon">Levels to Show</span>
-      <select id="bom_levels" class="form-control" type="text"  selected="{{levels}}" aria-describedby="part-desc-addon" id="part-desc-search">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="2">2</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-      </select>
-      <span class="input-group-btn"/>
+        <div class="input-group" style="margin-top:10px;">
+            <span class="input-group-addon" id="part-desc-addon">Levels to Show</span>
+            <select id="bom_levels" class="form-control" type="text"  selected="{{levels}}" aria-describedby="part-desc-addon" id="part-desc-search">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="2">2</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            </select>
+            <span class="input-group-btn"/>
+        </div>
     </div>
-  </div>
-  <div class="col"></div>
-
+    <div class="col"></div>
 </div>
 
 

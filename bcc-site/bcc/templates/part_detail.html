@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-<br>
-<br>
+<div class="col" style="margin-top:60px"/>
 <div class="row">
     <div class="col-sm-8">
         <h1>{{ part.partNumber}}</h1>
@@ -84,12 +83,12 @@
         </tr>
     </thead>
     <tbody>
-        {% for supplierPart in supplierParts %}
+        {% for supplier_part in supplier_parts %}
         <tr>
-            <td>{{supplierPart.supplierName}}</td>
-            <td><a href="{{supplierPart.supplierLink}}">{{supplierPart.supplierPartNumber}}</a></td>
-            <td>{{supplierPart.purchaseMOQ}}</td>
-            <td>{{supplierPart.purchaseUnitPrice}}</td>
+            <td>{{supplier_part.supplierName}}</td>
+            <td><a href="{{supplier_part.supplierLink}}">{{supplier_part.supplierPartNumber}}</a></td>
+            <td>{{supplier_part.purchaseMOQ}}</td>
+            <td>{{supplier_part.purchaseUnitPrice}}</td>
         </tr>
         {% endfor %}
     </tbody>
