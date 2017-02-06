@@ -1,0 +1,3 @@
+graft bcc/templates
+graft bcc/static
+include bcc/schema.sql

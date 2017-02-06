@@ -1,0 +1,146 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="col" style="margin-top:60px"/>
+<div class="row">
+    <div class="col"></div>
+    <div class="col-6">
+        <h3>BOM Builder</h3>
+        <div class="input-group">
+            <span class="input-group-addon" id="part-number-addon">Part Number</span>
+            <input class="form-control" type="text" aria-describedby="part-number-addon" id="part-number" value="{{part_number}}"/>
+            <span class="input-group-btn"/>
+        </div>
+
+        <div class="input-group" style="margin-top:10px;">
+            <span class="input-group-addon" id="part-desc-addon">Levels to Show</span>
+            <select id="bom_levels" class="form-control" type="text"  selected="{{levels}}" aria-describedby="part-desc-addon" id="part-desc-search">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="2">2</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            </select>
+            <span class="input-group-btn"/>
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
+
+
+{% if bom_items %}
+<!--- rendering BOM Visual -->
+
+<div class="row">
+  <div class="col"></div>
+  <div class="col-10">
+    <div id="mynetwork">
+    </div>
+  </div>
+  <div class="col"></div>
+</div>
+
+
+
+
+<div class="row">
+  <div class="col">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Level</th>
+        <th>Part Number</th>
+        <th>Quantity</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for bom_item in bom_items %}
+      <tr>
+        <td>{{ bom_item.level }}</td>
+        <th scope="row"><a href="/parts/{{bom_item.bom.child}}">{{ bom_item.bom.child }}</a></th>
+        <td>{{ bom_item.bom.quantity }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+
+  </div>
+</div>
+
+
+
+<script>
+
+// create an array with nodes
+var nodes = new vis.DataSet([
+{id: '{{part_number}}', label: '{{part_number}}', group: 0, value: 1 },
+{% for bom_item in bom_items %}
+{id: '{{bom_item.bom.child}}' + '-' + '{{bom_item.level}}' ,
+ label: '{{bom_item.bom.child}}' + ' level ' + '{{bom_item.level}}',
+  group: {{bom_item.level}},
+  value: {{bom_item.bom.quantity}} },
+{% endfor %}
+]);
+
+// create an array with edges
+var edges = new vis.DataSet([
+
+{% for bom_item in bom_items %}
+{% if bom_item.level == 1 %}
+{from: '{{part_number}}', to: '{{bom_item.bom.child}}' + '-' + '{{bom_item.level}}'},
+{% else %}
+  {from: '{{bom_item.bom.parent}}' + '-' + '{{bom_item.level - 1}}' , to: '{{bom_item.bom.child}}' + '-' + '{{bom_item.level}}'},
+{% endif %}
+
+{% endfor %}
+
+
+]);
+
+// create a network
+var container = document.getElementById('mynetwork');
+var data = {
+nodes: nodes,
+edges: edges
+};
+var options = {
+width: '1200px',
+height: '600px',
+ layout: {
+  hierarchical : true
+  },
+
+   nodes: {
+            shape: 'dot',
+            size: 30,
+            font: {
+                size: 12
+            },
+            borderWidth: 2,
+            shadow:true
+        },
+        edges: {
+            width: 2,
+            shadow:true
+        }
+};
+var network = new vis.Network(container, data, options);
+
+</script>
+
+
+
+
+<script>
+    $(document).keypress(function(e) {
+    if(e.which == 13) {
+         document.location.href = '/bom?part_number=' + encodeURI($('#part-number').val()) + '&levels=' + $('#bom_levels').val();
+    }
+});
+</script>
+
+{% endif %}
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="col" style="margin-top:60px"/>
+<div class="row">
+    <div class="col"></div>
+    <div class="col-6">
+        <h3>Part Search</h3>
+
+        <div class="input-group">
+            <span class="input-group-addon" id="part-number-addon">Part Number Starts With</span>
+            <input class="form-control" type="text" aria-describedby="part-number-addon" id="part-number-prefix"/>
+            <span class="input-group-btn"/>
+        </div>
+
+
+
+        <div class="input-group" style="margin-top:10px;">
+            <span class="input-group-addon" id="part-desc-addon">Part Description Contains</span>
+            <input class="form-control" type="text" aria-describedby="part-desc-addon" id="part-desc-search"/>
+            <span class="input-group-btn"/>
+        </div>
+
+    </div>
+    <div class="col"></div>
+</div>
+
+{% if searchresults %}
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-block">
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Part Number</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for searchresult in searchresults %}
+                    <tr>
+                        <th scope="row"><a href="/parts/{{searchresult.partNumber}}">{{ searchresult.partNumber }}</a></th>
+                        <td>{{ searchresult.description }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+
+
+<script>
+
+    function get_redirect_link(){
+        var part_prefix_val = $('#part-number-prefix').val();
+        var part_prefix_link = '/parts?part_prefix=' + encodeURI($('#part-number-prefix').val());
+        var desc_val = $('#part-desc-search').val();
+        var desc_link = '/parts?description=' + encodeURI($('#part-desc-search').val());
+        if(part_prefix_val.length > 0){
+            return part_prefix_link;
+        }
+        else {
+            return desc_link;
+        }
+
+    }
+
+    $(document).keypress(function(e) {
+    if(e.which == 13) {
+         document.location.href = get_redirect_link();
+    }
+});
+</script>
+
+{% endblock %}

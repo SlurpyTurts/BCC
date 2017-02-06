@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="col" style="margin-top:60px"/>
+<div class="row">
+  <div class="col"></div>
+  <div class="col-md-4 col-xs-8"><h3> Welcome to BCC </h3></div>
+  <div class="col"></div>
+</div>
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="card" style="margin:5px;">
+      <div class="card-block">
+        <h4 class="card-title">
+          Build a BOM
+        </h4>
+        <p class="card-text">
+          A Bill of material is useful in order to understand pricing and item content.
+        </p>
+        <a class="btn btn-primary" href="/bom">Go</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card" style="margin:5px;">
+      <div class="card-block">
+        <h4 class="card-title">
+          Browse Inventory
+        </h4>
+        <p class="card-text">
+          Browsing inventory to understand what is available.
+        </p>
+        <a class="btn btn-primary" href="/inventory">Go</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card" style="margin:5px;">
+      <div class="card-block">
+        <h4 class="card-title">
+          View Orders
+        </h4>
+        <p class="card-text">
+          Get your orders here!
+        </p>
+        <a class="btn btn-primary" href="/orders">Go</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="card" style="margin:5px;">
+      <div class="card-block">
+        <h4 class="card-title">
+          Check Dealers
+        </h4>
+        <p class="card-text">
+          Checkout some dealers
+        </p>
+        <a class="btn btn-primary" href="/dealers">Go</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

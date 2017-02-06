@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="col" style="margin-top:60px"/>
+<div class="row">
+    <div class="col-sm-8">
+        <h1>{{ part.partNumber}}</h1>
+    </div>
+    <div class="col">
+        {% if part.status == 1 %}
+        <div class="alert alert-success" role="alert">
+            Part status: <strong>{{part.statusName}}</strong>
+        </div>
+        {% else %}
+            {% if part.status == 4 %}
+            <div class="alert alert-warning" role="alert">
+                Part status: <strong>{{part.statusName}}</strong>
+            </div>
+            {% else %}
+                {% if part.status == 2 or part.status == 3 %}
+                <div class="alert alert-info" role="alert">
+                    Part status: <strong>{{part.statusName}}</strong>
+                </div>
+                {% else %}
+                    {% if part.status == 5%}
+                    <div class="alert alert-danger" role="alert">
+                        Part status: <strong>{{part.statusName}}</strong>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Part lifecycle not set!</strong>
+                    </div>
+                    {% endif %}
+                {% endif%}
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <div class="col">
+        <a class="btn btn-info" href="/bom?part_number={{part.partNumber}}&levels=4" role="button">Build BOM</a>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col"><h3>{{part.description}}</h3></div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card" style="margin:10px;">
+            <div class="card-block">
+                <h4>Pricing</h4>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Desc</th>
+                        <th>Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">Dealer</th>
+                        <td>{{part.dealerPrice}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Distributor</th>
+                        <td>{{part.distributorPrice}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Supplier</th>
+            <th>Supplier Part Number</th>
+            <th>MOQ</th>
+            <th>Unit Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for supplier_part in supplier_parts %}
+        <tr>
+            <td>{{supplier_part.supplierName}}</td>
+            <td><a href="{{supplier_part.supplierLink}}">{{supplier_part.supplierPartNumber}}</a></td>
+            <td>{{supplier_part.purchaseMOQ}}</td>
+            <td>{{supplier_part.purchaseUnitPrice}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
