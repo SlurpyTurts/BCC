@@ -1,39 +1,62 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="col" style="margin-top:60px"/>
+<div class="col" style="margin-top:80px"/>
 <div class="container">
     <div class="row">
         <div class="col">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Order Number</th>
-                        <th>Order Date</th>
-                        <th>Customer</th>
-                        <th>Dealer</th>
-                        <th>Terms</th>
-                        <th>Invoice Sent Date</th>
-                        <th>Invoice Status</th>
-                        <th>Invoice Amount</th>
-                        <th>Unpaid Balance</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for order in orders %}
-                    <tr>
-                        <td><a href="http://localhost:5000/orders/{{ order.orderNumber }}">{{ order.orderNumber }}</a></td>
-                        <td>{{ order.orderDate }}</td>
-                        <td>{{ order.firstName }} {{ order.lastName }}</td>
-                        <td><a href="http://localhost:5000/dealers/{{ order.dealerid }}">{{ order.dealerName }}</a></td>
-                        <td>{{ order.termsDescription }}</td>
-                        <td>{{ order.invoiceSentDate }}</td>
-                        <td>{{ order.invoiceStatus }}</td>
-                        <td>{{ order.orderTotal }}</td>
-                        <td>{{ order.orderDiscount }}</td>
-                    </tr>
+            <h1>Order Overview</h1>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if page == 1 %}
+                    <li class="page-item disabled"><a class="page-link" href="/orders?page={{page-1}}">Previous</a></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="/orders?page={{page-1}}">Previous</a></li>
+                    {% endif %}
+                    {% for i in range(1, max_page+1) %}
+                    <li class="page-item"><a class="page-link" href="/orders?page={{i}}">{{i}}</a></li>
                     {% endfor %}
-                </tbody>
-            </table>
+                    {% if page == max_page %}
+                    <li class="page-item disabled"><a class="page-link" href="/orders?page={{page+1}}">Next</a></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="/orders?page={{page+1}}">Next</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <div class="card">
+                <div class="card-block">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center;">Order Number</th>
+                                <th style="text-align:center;">Order Date</th>
+                                <th style="text-align:center;">Customer</th>
+                                <th style="text-align:center;">Dealer</th>
+                                <th style="text-align:center;">Terms</th>
+                                <th style="text-align:center;">Invoice Sent Date</th>
+                                <th style="text-align:center;">Invoice Status</th>
+                                <th style="text-align:center;">Invoice Amount</th>
+                                <th style="text-align:center;">Unpaid Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td style="text-align:center;"><a class="btn btn-outline-primary btn btn-block" href="/orders/{{ order.orderNumber }}">{{ order.orderNumber }}</a></td>
+                                <td style="text-align:center;">{{ order.orderDate }}</td>
+                                <td style="text-align:center;">{{ order.firstName }} {{ order.lastName }}</td>
+                                <td style="text-align:center;"><a class="btn btn-outline-primary btn-sm btn-block" href="dealers/{{ order.dealerid }}">{{ order.dealerName }}</a></td>
+                                <td style="text-align:center;">{{ order.termsDescription }}</td>
+                                <td style="text-align:center;">{{ order.invoiceSentDate }}</td>
+                                <td style="text-align:center;">{{ order.orderStatus }}</td>
+                                <td style="text-align:center;">{{ "${:,.2f}".format(order.orderTotal) }}</td>
+                                <td style="text-align:center;"></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <a class="btn btn-outline-primary btn-lg btn-block" style="margin-bottom:200px; margin-top:50px" href="/orders/new">New Order</a>
         </div>
     </div>
 </div>

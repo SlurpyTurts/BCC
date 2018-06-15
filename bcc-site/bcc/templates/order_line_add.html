@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container" style="margin-top:60px">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-6">
+            <h3 style="margin-bottom:30px">Add Line Item To Order {{ order_number }}</h3>
+            <div class="card" style="margin-top:20px; margin-bottom:50px">
+                <div class="card-block">
+                    <form method="post">
+                        <div class="form-group row">
+                            <label for="partNumber" class="col-2 col-form-label">Part Number</label>
+                            <div class="col-3">
+                                <input type="text" class="form-control" id="partNumber" name="partNumber">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="quantity" class="col-2 col-form-label">Quantity</label>
+                            <div class="col-2">
+                                <input type="text" class="form-control" id="quantity" name="quantity">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="unitDiscount" class="col-2 col-form-label">Unit Discount</label>
+                            <div class="col-3">
+                                <input type="text" class="form-control" id="unitDiscount" name="unitDiscount">
+                            </div>
+                        </div>
+                        <button type="submit" style="margin-top:30px" class="btn btn-outline-primary btn-lg btn-block">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <a class="btn btn-outline-primary btn-lg btn-block" href="/orders/{{ order_number }}">Return</a>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock %}

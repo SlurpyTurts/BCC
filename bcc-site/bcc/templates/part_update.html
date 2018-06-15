@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container" style="margin-top:60px">
+    <div class="row">
+        <div class="col">
+            {% for part in part %}
+            <h1>Update Part {{ part.partNumber }}</h1>
+            <div class="card" style="margin-bottom:260px">
+                <div class="card-block">
+                    <form method="post">
+                        <div class="form-group">
+                            <label for="partDescription">Description</label>
+                            <div class="col-8">
+                                {% if part.description == None %}
+                                <input type="text" class="form-control" id="partDescription" name="partDescription" placeholder="insert part description...">
+                                {% else %}
+                                <input type="text" class="form-control" id="partDescription" name="partDescription" value="{{ part.description }}">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="PTSC1">Part Type Subclass 1</label>
+                            <div class="col-3">
+                                {% if part.partTypeSubClass1 == None %}
+                                <input type="text" class="form-control" id="PTSC1" name="PTSC1" placeholder="input PTSC1 here......">
+                                {% else %}
+                                <input type="text" class="form-control" id="PTSC1" name="PTSC1" value="{{ part.partTypeSubClass1 }}">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="PTSC2">Part Type Subclass 2</label>
+                            <div class="col-3">
+                                {% if part.partTypeSubClass2 == None %}
+                                <input type="text" class="form-control" id="PTSC2" name="PTSC2" placeholder="input PTSC2 here......">
+                                {% else %}
+                                <input type="text" class="form-control" id="PTSC2" name="PTSC2" value="{{ part.partTypeSubClass2 }}">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="PTSC3">Part Type Subclass 3</label>
+                            <div class="col-3">
+                                {% if part.partTypeSubClass3 == None %}
+                                <input type="text" class="form-control" id="PTSC3" name="PTSC3" placeholder="input PTSC3 here......">
+                                {% else %}
+                                <input type="text" class="form-control" id="PTSC3" name="PTSC3" value="{{ part.partTypeSubClass3 }}">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="partStatus">Status</label>
+                            <select class="custom-select" id="partStatus" name="partStatus">
+                                {% if part_status == None %}
+                                <option selected>Select Status...</option>
+                                {% else %}
+                                <option value="{{ part.status }}" selected>{{ part.statusDescription }}</option>
+                                {% endif %}
+                                {% for status in part_status%}
+                                <option value="{{ status.id }}">{{ status.statusName }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="partUnit">Unit</label>
+                            <select class="custom-select" id="partUnit" name="partUnit">
+                                {% if part.unit == None %}
+                                <option selected>Select Unit Type...</option>
+                                {% else %}
+                                <option value="{{ part.unit }}" selected>{{ part.unitDescription }}</option>
+                                {% endif %}
+                                {% for unit in part_unit%}
+                                <option value="{{ unit.id }}">{{ unit.description }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="standardPurchasePrice">Standard Purchase Price</label>
+                            <div class="col-3">
+                                {% if part.standardPurchasePrice == None %}
+                                <input type="text" class="form-control" id="standardPurchasePrice" name="standardPurchasePrice" placeholder="input purchase price......">
+                                {% else %}
+                                <input type="text" class="form-control" id="standardPurchasePrice" name="standardPurchasePrice" value="{{ part.standardPurchasePrice }}">
+                                {% endif%}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="standardSellPrice">Standard Sell Price</label>
+                            <div class="col-3">
+                                {% if part.standardSellPrice == None %}
+                                <input type="text" class="form-control" id="standardSellPrice" name="standardSellPrice" placeholder="input sell price......">
+                                {% else %}
+                                <input type="text" class="form-control" id="standardSellPrice" name="standardSellPrice" value="{{ part.standardSellPrice }}">
+                                {% endif%}
+                            </div>
+                        </div>
+                        <button type="submit" style="margin-top:60px" class="btn btn-outline-primary btn-lg btn-block">Update</button>
+                    </form>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

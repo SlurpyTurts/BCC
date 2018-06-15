@@ -1,10 +1,50 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="col" style="margin-top:60px"/>
+<div class="col" style="margin-top:80px"/>
 <div class="container">
     <div class="row">
         <div class="col">
-            <h3>suppliers list goes here</h3>
+            <a class="btn btn-outline-primary btn-lg btn-block" style="margin-bottom:40px" href="/suppliers/new">New Supplier</a>
+            <h3>Browse Suppliers</h3>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if page == 1 %}
+                    <li class="page-item disabled"><a class="page-link" href="/suppliers?page={{page-1}}">Previous</a></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="/suppliers?page={{page-1}}">Previous</a></li>
+                    {% endif %}
+                    {% for i in range(1, max_page) %}
+                    <li class="page-item"><a class="page-link" href="/suppliers?page={{i}}">{{i}}</a></li>
+                    {% endfor %}
+                    {% if page == max_page %}
+                    <li class="page-item disabled"><a class="page-link" href="/suppliers?page={{page+1}}">Next</a></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="/suppliers?page={{page+1}}">Next</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <div class="card">
+                <div class="card-block">
+                    <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Supplier Name</th>
+                                    <th>Website</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                        <tbody>
+                            {% for supplier in suppliers %}
+                            <tr>
+                                <td><a class="btn btn-outline-primary btn" href = "suppliers/{{ supplier.id }}">{{ supplier.supplierName }}</a></td>
+                                <td><a class="btn btn-outline-primary btn" href = "{{ supplier.website }}" target="_blank">{{ supplier.website }}</a></td>
+                                <td>{{ supplier.status }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

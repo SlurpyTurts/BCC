@@ -1,60 +1,130 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="col" style="margin-top:60px"/>
-<div class="row">
+<div class="row" style="margin-top:5em; margin-bottom:3em;">
     <div class="col"></div>
     <div class="col-6">
         <h3>Part Search</h3>
-
         <div class="input-group">
             <span class="input-group-addon" id="part-number-addon">Part Number Starts With</span>
             <input class="form-control" type="text" aria-describedby="part-number-addon" id="part-number-prefix"/>
             <span class="input-group-btn"/>
         </div>
-
-
-
         <div class="input-group" style="margin-top:10px;">
             <span class="input-group-addon" id="part-desc-addon">Part Description Contains</span>
             <input class="form-control" type="text" aria-describedby="part-desc-addon" id="part-desc-search"/>
             <span class="input-group-btn"/>
         </div>
-
+        <a class="btn btn-outline-primary btn-lg btn-block" style="margin-top:1em;" href="/parts/new">New Part</a>
     </div>
     <div class="col"></div>
 </div>
 
-{% if searchresults %}
-<div class="row">
-    <div class="col">
-        <div class="card">
-            <div class="card-block">
-
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Part Number</th>
-                        <th>Description</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for searchresult in searchresults %}
-                    <tr>
-                        <th scope="row"><a href="/parts/{{searchresult.partNumber}}">{{ searchresult.partNumber }}</a></th>
-                        <td>{{ searchresult.description }}</td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-
+{% if not searchresults %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-block">
+                    <p><b>Add a lookup by part type - family (1-9), subclass (first three digits), etc</b></p>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Family</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Browse Parts</h1>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if page == 1 %}
+                    <li class="page-item disabled"><a class="page-link" href="/parts?page={{page-1}}">Previous</a></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="/parts?page={{page-1}}">Previous</a></li>
+                    {% endif %}
+                    {% for i in range(1, max_page+1) %}
+                    <li class="page-item"><a class="page-link" href="/parts?page={{i}}">{{i}}</a></li>
+                    {% endfor %}
+                    {% if page == max_page %}
+                    <li class="page-item disabled"><a class="page-link" href="/parts?page={{page+1}}">Next</a></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="/parts?page={{page+1}}">Next</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <div class="card">
+                <div class="card-block">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Part Number</th>
+                            <th>Description</th>
+                            <th>Purchase Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for part in parts %}
+                        <tr>
+                            <td><a class="btn btn-outline-primary btn-sm btn-block" href="parts/{{part.partNumber}}">{{ part.partNumber }}</a></td>
+                            <td>{{ part.description }}</td>
+                            {% if part.standardPurchasePrice == None%}
+                            <td>NOT SET</td>
+                            {% else%}
+                            <td>{{ "${:,.2f}".format(part.standardPurchasePrice) }}</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endif %}
-
-
+{% if searchresults %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Search Results</h1>
+            <div class="card">
+                <div class="card-block">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Part Number</th>
+                            <th>Description</th>
+                            <th>Purchase Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for searchresult in searchresults %}
+                        <tr>
+                            <td><a class="btn btn-outline-primary btn-sm btn-block" href="/parts/{{searchresult.partNumber}}">{{ searchresult.partNumber }}</a></td>
+                            <td>{{ searchresult.description }}</td>
+                            <td>{{ searchresult.standardPurchasePrice }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <script>
 

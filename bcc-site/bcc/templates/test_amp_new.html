@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="col" style="margin-top:80px"/>
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-6">
+            <h2>New Amp Test</h2>
+            <div class="card" style="margin-top:20px; margin-bottom:50px">
+                <div class="card-block">
+                    <form method="post">
+                        <div class="form-group row">
+                            <label for="model" class="col-2 col-form-label">Model<span class="required-form-field">*</span></label>
+                            <div class="col-4">
+                                <input type="text" class="form-control" id="model" name="model" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="serialNumber" class="col-2 col-form-label">Serial Number<span class="required-form-field">*</span></label>
+                            <div class="col-4">
+                                <input type="text" class="form-control" id="serialNumber" name="serialNumber" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="notes" class="col-2 col-form-label">Notes</label>
+                            <div class="col-10">
+                                <input type="text" class="form-control" id="notes" name="notes">
+                            </div>
+                        </div>
+                        <button type="submit" style="margin-top:30px" class="btn btn-outline-primary btn-lg btn-block">Next</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock %}

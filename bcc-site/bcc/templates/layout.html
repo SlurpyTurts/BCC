@@ -5,6 +5,7 @@
   <meta name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/vis.min.css') }}" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bcc.css') }}" />
   <script src="{{ url_for('static', filename='js/jquery-3.1.1.min.js') }}" ></script>
   <script src="{{ url_for('static', filename='js/tether.min.js') }}" ></script>
   <script src="{{ url_for('static', filename='js/bootstrap.js') }}" ></script>
@@ -20,33 +21,39 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent" >
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="/bom"> BOM </a>
+          <a class="nav-link" href="/bom">BOM</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/inventory"> Inventory </a>
+          <a class="nav-link" href="/inventory">Inventory</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/parts"> Parts </a>
+          <a class="nav-link" href="/parts">Parts</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/orders"> Orders </a>
+          <a class="nav-link" href="/orders">Orders</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/dealers"> Dealers </a>
+          <a class="nav-link" href="/dealers">Dealers</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/suppliers"> Suppliers </a>
+          <a class="nav-link" href="/suppliers">Suppliers</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/todo"> Todo </a>
+          <a class="nav-link" href="/todo">Todo</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/test">Test</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/inquiry">Inquiry</a>
         </li>
         {% if not session.logged_in %}
         <li class="nav-item">
-          <a class="nav-link" href="/login"> Login </a>
+          <a class="nav-link" href="/login">Login</a>
         </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-link" href="/logout"> {{ session.username }}(Logout) </a>
+          <a class="nav-link" href="/logout">{{ session.username }}(Logout)</a>
         </li>
         {% endif %}
       </ul>

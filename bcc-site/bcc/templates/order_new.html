@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="col" style="margin-top:100px"/>
+<h1>Create A New Order</h1>
+<div class="col" style="margin-top:40px"/>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form class="form" method="post">
+                <div class="card" style="margin-top:50px">
+                    <div class="card-block">
+                        <h3 style="margin-bottom:30px">Order Info</h3>
+                        <div class="form-group row">
+                            <label for="dealerName" class="col-3 col-form-label">Dealer<span class="required-form-field">*</span></label>
+                            <div class="col-4">
+                                <select class="custom-select" id="dealerName" name="dealerName" required>
+                                    <option selected>Select Dealer...</option>
+                                    {% for dealer in dealers %}
+                                    <option value="{{ dealer.id }}">{{ dealer.dealerName }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="orderTerms" class="col-3 col-form-label">Terms<span class="required-form-field">*</span></label>
+                            <div class="col-5">
+                                <select class="custom-select" id="orderTerms" name="orderTerms" required>
+                                    <option selected>Select Terms...</option>
+                                    {% for term in terms %}
+                                    <option value="{{ term.id }}">{{ term.termType }} - {{ term.description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-top:50px">
+                    <div class="card-block">
+                        <h3 style="margin-bottom:30px">Customer Info</h3>
+                        <div class="form-group row">
+                            <label for="customerFirstName" class="col-3 col-form-label">First Name</label>
+                            <div class="col-5">
+                                <input type="text" class="form-control" id="customerFirstName" name="customerFirstName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="customerLastName" class="col-3 col-form-label">Last Name</label>
+                            <div class="col-5">
+                                <input type="text" class="form-control" id="customerLastName" name="customerLastName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="customerPhone" class="col-3 col-form-label">Phone Number</label>
+                            <div class="col-5">
+                                <input type="text" class="form-control" id="customerPhone" name="customerPhone">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="customerEmail" class="col-3 col-form-label">Email</label>
+                            <div class="col-5">
+                                <input type="text" class="form-control" id="customerEmail" name="customerEmail">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="shippingAddressLine1" class="col-3 col-form-label">Shipping Address Line 1<span class="required-form-field">*</span></label>
+                            <div class="col-5">
+                                <input type="text" class="form-control" id="shippingAddressLine1" name="shippingAddressLine1" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="shippingAddressLine2" class="col-3 col-form-label">Shipping Address Line 2</label>
+                            <div class="col-5">
+                                <input type="text" class="form-control" id="shippingAddressLine2" name="shippingAddressLine2">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="shippingCity" class="col-3 col-form-label">City<span class="required-form-field">*</span></label>
+                            <div class="col-5">
+                                <input type="text" class="form-control" id="shippingCity" name="shippingCity" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="shippingState" class="col-3 col-form-label">State/Province<span class="required-form-field">*</span></label>
+                            <div class="col-1">
+                                <input type="text" class="form-control" id="shippingState" name="shippingState" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="shippingZip" class="col-3 col-form-label">Zip<span class="required-form-field">*</span></label>
+                            <div class="col-5">
+                                <input type="text" class="form-control" id="shippingZip" name="shippingZip" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="shippingCountry" class="col-3 col-form-label">Country<span class="required-form-field">*</span></label>
+                            <div class="col-5">
+                                <input type="text" class="form-control" id="shippingCountry" name="shippingCountry" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" style="margin-top:50px" class="btn btn-outline-primary btn-lg btn-block">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="col" style="margin-top:260px"/>
+{% endblock %}
