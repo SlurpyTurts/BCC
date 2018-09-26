@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="col" style="margin-top:80px"/>
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-9">
+            <h3>Electrical Check 87% (nominally 105VAC)</h3>
+            <form method="post">
+                <div class="card" style="margin-top:20px; margin-bottom:50px">
+                    <div class="card-block">
+                        <ul>
+                            <li>Turn variac to 105VAC. Measure:
+                                <ul>
+                                    <div class="form-group row">
+                                        <label for="acVoltage" class="col-7 col-form-label"><li>AC line voltage<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="acVoltage" name="acVoltage" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="bias" class="col-7 col-form-label"><li>Bias - nominally <strong>-56VDC</strong><span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="bias" name="bias" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="plate" class="col-7 col-form-label"><li>Plate - nominally <strong>+315VDC</strong><span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="plate" name="plate" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="screen" class="col-7 col-form-label"><li>Screen - nominally <strong>+630VDC</strong><span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="screen" name="screen" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="filament" class="col-7 col-form-label"><li>Filament voltage at source - nominally <strong>5.5VAC</strong><span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="filament" name="filament" required>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </li>
+                            <li>Check that signal passes through to the scope.</li>
+                        </ul>
+                    </div>
+                </div>
+                <button type="submit" style="margin-top:30px" class="btn btn-outline-primary btn-lg btn-block">Next</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock %}

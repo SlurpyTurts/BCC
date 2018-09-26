@@ -18,28 +18,9 @@
                                 <a class="dropdown-item" href="/inventory/loc/{{location.locationName}}">{{location.locationName}}</a>
                                 {% endfor %}
                             </div>
-                        </div>
+                          </div>
                     </div>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Part Number</th>
-                                <th>Description</th>
-                                <th>Quantity</th>
-                                <th>Transaction History</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for result in inventory %}
-                            <tr>
-                                <td scope="row"><a class="btn btn-outline-primary btn-sm"href="/parts/{{ result.partNumber }}">{{ result.partNumber }}</a></td>
-                                <td>{{ result.description }}</td>
-                                <td>{{ result.quantity }}</td>
-                                <td><a class="btn btn-outline-primary btn-sm" href="/inventory/{{ result.partNumber }}">View Transaction History</a></td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    <h3>Not currently available!</h3>
                 </div>
             </div>
         </div>

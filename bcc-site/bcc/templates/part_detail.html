@@ -1,97 +1,91 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="col" style="margin-top:60px"/>
-<div class="row">
-    <div class="col-sm-8">
-        <h1>{{ part.partNumber}}</h1>
-    </div>
-    <div class="col">
-        {% if part.status == 1 %}
-        <div class="alert alert-success" role="alert">
-            Part status: <strong>{{part.statusName}}</strong>
-        </div>
-        {% else %}
-            {% if part.status == 4 %}
-            <div class="alert alert-warning" role="alert">
-                Part status: <strong>{{part.statusName}}</strong>
-            </div>
-            {% else %}
-                {% if part.status == 2 or part.status == 3 %}
-                <div class="alert alert-info" role="alert">
-                    Part status: <strong>{{part.statusName}}</strong>
-                </div>
+{% for part in part%}
+<div class="container" style="margin-top:60px">
+    <div class="row">
+        <div class="col">
+            <h1 style="margin-bottom:20px">{{ part.partNumber }} <small>- {{ part.description }}</small></h1>
+            <ul>
+                <li>Part Type Sub-Class 1: <strong>{{ part.partTypeSubClass1 }}</strong></li>
+                <li>Part Type Sub-Class 2: <strong>{{ part.partTypeSubClass2 }}</strong></li>
+                <li>Part Type Sub-Class 3: <strong>{{ part.partTypeSubClass3 }}</strong></li>
+                <li>Part Status: <strong>{{ part.statusDescription }}</strong></li>
+                <li>Part Unit: <strong>{{ part.unitDescription }}</strong></li>
+                {% if part.standardPurchasePrice %}
+                <li>Standard Purchase Price: <strong>{{ "${:,.4f}".format(part.standardPurchasePrice) }}</strong></li>
                 {% else %}
-                    {% if part.status == 5%}
-                    <div class="alert alert-danger" role="alert">
-                        Part status: <strong>{{part.statusName}}</strong>
-                    </div>
-                    {% else %}
-                    <div class="alert alert-danger" role="alert">
-                        <strong>Part lifecycle not set!</strong>
-                    </div>
-                    {% endif %}
-                {% endif%}
-            {% endif %}
-        {% endif %}
-    </div>
-
-    <div class="col">
-        <a class="btn btn-info" href="/bom?part_number={{part.partNumber}}&levels=4" role="button">Build BOM</a>
-
-    </div>
-</div>
-<div class="row">
-    <div class="col"><h3>{{part.description}}</h3></div>
-</div>
-<div class="row">
-    <div class="col-md-6">
-        <div class="card" style="margin:10px;">
-            <div class="card-block">
-                <h4>Pricing</h4>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Desc</th>
-                        <th>Price</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">Dealer</th>
-                        <td>{{part.dealerPrice}}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Distributor</th>
-                        <td>{{part.distributorPrice}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <li>Standard Purchase Price: <strong>Not set</strong></li>
+                {% endif %}
+                {% if part.standardSellPrice == None %}
+                <li>Standard Sell Price: <strong>Not set</strong></li>
+                {% else %}
+                <li>Standard Sell Price: <strong>{{ "${:,.2f}".format(part.standardSellPrice) }}</strong></li>
+                {% endif %}
+            </ul>
+            <div class="btn-group" role="group" style="margin-bottom:20px">
+                <a class="btn btn-outline-primary btn-lg" href="/bom/{{ part.partNumber}}">BOM</a>
+                <a class="btn btn-outline-primary btn-lg" href="/parts/{{part.partNumber}}/update">Update</a>
+                <a class="btn btn-outline-primary btn-lg" href="/inventory/{{part.partNumber}}">Inventory</a>
+                <a class="btn btn-outline-primary btn-lg" href="/inventory/transaction">New Transaction</a>
+                <a class="btn btn-outline-primary btn-lg" href="/parts/{{part.partNumber}}">Delete</a>
             </div>
         </div>
     </div>
+    <h2>Sources</h2>
+    <div class="card" style="margin-bottom:50px">
+        <div class="card-block">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;">Supplier</th>
+                        <th style="text-align:center;">Supplier Part Number</th>
+                        <th style="text-align:center;">MOQ</th>
+                        <th style="text-align:center;">Unit Price</th>
+                        <th style="text-align:center;">Extended Price</th>
+                        <th style="text-align:center;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for supplier_part in supplier_parts %}
+                    <tr>
+                        <td style="text-align:center;"><a class="btn btn-outline-primary btn-sm btn-block"  href="/suppliers/{{supplier_part.supplierid}}">{{supplier_part.supplierName}}</a></td>
+                        <td style="text-align:center;"><a class="btn btn-outline-primary btn-sm btn-block" href="{{supplier_part.supplierLink}}" target="_blank">{{supplier_part.supplierPartNumber}}</a></td>
+                        <td style="text-align:center;">{{ supplier_part.purchaseMOQ }}</td>
+                        <td style="text-align:center;">{{ "${:,.4f}".format(supplier_part.purchaseUnitPrice) }}</td>
+                        <td style="text-align:center;">{{ "${:,.2f}".format(supplier_part.purchaseUnitPrice*supplier_part.purchaseMOQ) }}</td>
+                        {% if supplier_part.standardPartPrice == 1 %}
+                            <td style="text-align:center;">Standard Price</td>
+                        {% else %}
+                            <td style="text-align:center;"><a class="btn btn-outline-primary btn-sm btn-block" href="/update_standard_purchase_price/{{ part.partNumber }}/{{ supplier_part.purchaseMOQ|round|int }}/{{ supplier_part.supplierPartNumber }}">Set Standard Purchase Price</a></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a class="btn btn-outline-primary btn-lg btn-block" href="/parts/{{ part.partNumber }}/addsource">Add</a>
+        </div>
+    </div>
+    <h2>Where Used</h2>
+    <div class="card" style="margin-bottom:50px">
+        <div class="card-block">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Part Number</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for parent in parents%}
+                    <tr>
+                        <td><a class="btn btn-outline-primary btn-sm btn-block" href="/parts/{{parent.parent}}">{{ parent.parent }}</a></td>
+                        <td>{{ parent.description }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<br>
-<br>
-<br>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Supplier</th>
-            <th>Supplier Part Number</th>
-            <th>MOQ</th>
-            <th>Unit Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for supplier_part in supplier_parts %}
-        <tr>
-            <td>{{supplier_part.supplierName}}</td>
-            <td><a href="{{supplier_part.supplierLink}}">{{supplier_part.supplierPartNumber}}</a></td>
-            <td>{{supplier_part.purchaseMOQ}}</td>
-            <td>{{supplier_part.purchaseUnitPrice}}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
+{% endfor %}
 {% endblock %}

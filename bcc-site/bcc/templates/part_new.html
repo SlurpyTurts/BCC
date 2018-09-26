@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="col" style="margin-top:100px"/>
+<h1>Create A New Part</h1>
+<div class="col" style="margin-top:40px"/>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card" style="margin:10px;">
+                <div class="card-block">
+                    <form class="form" method="post">
+                        <div class="form-group row">
+                            <label for="partFamily" class="col-3 col-form-label">Part Family<span class="required-form-field">*</span></label>
+                            <div class="col-4">
+                                <select class="custom-select" id="partFamily" name="partFamily" required>
+                                    <option selected>Select Part Family...</option>
+                                    {% for part_family in part_family_list%}
+                                    <option value="{{ part_family.id }}">{{ part_family.id }} - {{ part_family.description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="partType" class="col-3 col-form-label">Part Type<span class="required-form-field">*</span></label>
+                            <div class="col-5">
+                                <select class="custom-select" id="partType" name="partType" required>
+                                    <option selected>Select Part Type</option>
+                                    {% for part_type in part_type_list%}
+                                    <option value="{{ part_type.id }}">{{ part_type.id }} - {{ part_type.description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="partNumber" class="col-3 col-form-label">Part Number<span class="required-form-field">*</span></label>
+                            <div class="col-2">
+                                <input type="number" class="form-control" id="partNumber" name="partNumber" placeholder="XXXX" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="partDescription" class="col-3 col-form-label">Description<span class="required-form-field">*</span></label>
+                            <div class="col-7">
+                                <input type="text" class="form-control" id="partDescription" name="partDescription" placeholder="WIDGET 3IN H X 0.25IN DIAM" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="partTypeSubClass1" class="col-3 col-form-label">Part Type Subclass 1<span class="required-form-field">*</span></label>
+                            <div class="col-2">
+                                <input type="text" class="form-control" id="partTypeSubClass1" name="partTypeSubClass1" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="partTypeSubClass2" class="col-3 col-form-label">Part Type Subclass2</label>
+                            <div class="col-2">
+                                <input type="text" class="form-control" id="partTypeSubClass2" name="partTypeSubClass2">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="partTypeSubClass3" class="col-3 col-form-label">Part Type Subclass 3</label>
+                            <div class="col-2">
+                                <input type="text" class="form-control" id="partTypeSubClass3" name="partTypeSubClass3">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="partStatus" class="col-3 col-form-label">Status<span class="required-form-field">*</span></label>
+                            <div class="col-2">
+                                <select class="custom-select" id="partStatus" name="partStatus" required>
+                                    <option selected>Select Status...</option>
+                                    {% for status in part_status_list%}
+                                    <option value="{{ status.id }}">{{ status.statusName }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="partUnit" class="col-3 col-form-label">Unit<span class="required-form-field">*</span></label>
+                            <div class="col-2">
+                                <select class="custom-select" id="partUnit" name="partUnit" required>
+                                    <option selected>Select Unit Type...</option>
+                                    {% for unit in part_unit_list%}
+                                    <option value="{{ unit.id }}">{{ unit.description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col" style="margin-top:60px"/>
+                        <button type="submit" class="btn btn-outline-primary btn-lg btn-block">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col" style="margin-top:260px"/>
+
+
+
+<script>
+    $( "#partFamily" )
+        .change(function(event){
+
+            $( "#partType" )
+                .children()
+                .show();
+
+
+            $( "#partType" )
+                .children()
+                .filter(function(index, element){return !element.value.startsWith(event.target.value);})
+                .hide();
+
+
+
+        }
+    );
+
+    $( "#partType" )
+        .change(function(event){
+
+            document.getElementById('partNumber').setAttribute('value',1234);
+
+
+
+        }
+    );
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="col" style="margin-top:80px"/>
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-9">
+            <h3>ELECTRICAL TEST SETUP</h3>
+            <form method="post">
+                <div class="card" style="margin-top:20px; margin-bottom:50px">
+                    <div class="card-block">
+                        <ul>
+                            <li>All connections/terminals soldered.</li>
+                            <li>Inspect dressing of all parts, interference check</li>
+                        </ul>
+                        <ul>
+                            <li>Hi-pot test.</li>
+                            <li>Set the volume control on the amp to max (fully clockwise)</li>
+                            <li>Connect signal generator (volume down), scope, 8 Ohm load, voltmeter.</li>
+                            <li>Set variac to 0, connect power cable to amp, power switch on (up).</li>
+                            <li>Install all tubes.</li>
+                        </ul>
+                    </div>
+                </div>
+                <button type="submit" style="margin-top:30px" class="btn btn-outline-primary btn-lg btn-block">Next</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock %}

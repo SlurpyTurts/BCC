@@ -1,94 +1,88 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="col" style="margin-top:60px"/>
-<div class="container">
-  <div class="row">
-    <div class="col">
-
-        {% for dealer in dealers %}
-        Dealer Name: {{ dealer.dealerName }}
-        <br>
-        Website: <a href = "{{ dealer.dealerWebsite }}">{{ dealer.dealerWebsite }}</a>
-        <br>
-        <br>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Shipping</th>
-                    <th>Billing</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    {% if not dealer.shippingAddressLine1 %}
-                    <td></td>
+<div class="container" style="margin-top:60px">
+    <div class="row">
+        <div class="col">
+            {% for dealer in dealers %}
+            <h1>{{ dealer.dealerName }}</h1>
+            <h3><a href = "{{ dealer.dealerWebsite }}" target="_blank">{{ dealer.dealerWebsite }}</a></h3>
+            <div class="card">
+                <div class="card-block">
+                    <div style="margin-top:40px">
+                    Status:
+                    {% if dealer.status == 'ACTIVE' %}
+                        <span class="alert alert-success" role="alert">{{ dealer.status }}</span>
                     {% else %}
-                    <td>{{ dealer.shippingAddressLine1 }}</td>
+                        {% if dealer.status == 'TERMINATED' %}
+                            <span class="alert alert-danger" role="alert">{{ dealer.status }}</span>
+                        {% else %}
+                            {% if dealer.status == 'INACTIVE' %}
+                                <span class="alert alert-info" role="alert">{{ dealer.status }}</span>
+                            {% else %}
+                                {{ dealer.status }}
+                            {% endif %}
+                        {% endif %}
                     {% endif %}
-                    {% if not dealer.billingAddressLine1 %}
-                    <td></td>
-                    {% else %}
-                    <td>{{ dealer.billingAddressLine1 }}</td>
-                    {% endif %}
-                </tr>
-                <tr>
-                    {% if not dealer.shippingAddressLine2 %}
-                    <td></td>
-                    {% else %}
-                    <td>{{ dealer.shippingAddressLine2 }}</td>
-                    {% endif %}
-                    {% if not dealer.billingAddressLine2 %}
-                    <td></td>
-                    {% else %}
-                    <td>{{ dealer.billingAddressLine2 }}</td>
-                    {% endif %}
-                </tr>
-                <tr>
-                    {% if not dealer.shippingCity or not dealer.shippingState or not dealer.shippingZip or not dealer.shippingCountry %}
-                    <td></td>
-                    {% else %}
-                    <td>{{ dealer.shippingCity }}, {{ dealer.shippingState }} {{ dealer.shippingZip }} {{ dealer.shippingCountry }}</td>
-                    {% endif %}
-                    {% if not dealer.billingCity or not dealer.billingState or not dealer.billingZip or not dealer.billingCountry %}
-                    <td></td>
-                    {% else %}
-                    <td>{{ dealer.billingCity }}, {{ dealer.billingState }} {{ dealer.billingZip }} {{ dealer.billingCountry }}</td>
-                    {% endif %}
-                </tr>
-            </tbody>
-        </table>
-        {% endfor %}
-
-
-        <br>
-        <br>
-        Orders:
-        <br>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Order Number</th>
-                    <th>Customer Name</th>
-                    <th>Invoice Status</th>
-                    <th>Sent Date</th>
-                    <th>Order Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for order in dealerOrders %}
-                <tr>
-                    <td><a href = "orders/{{ order.orderNumber }}">{{ order.orderNumber }}</a></td>
-                    <td>{{ order.lastName }}</td>
-                    <td>{{ order.invoiceStatus }}</td>
-                    <td>{{ order.invoiceSentDate }}</td>
-                    <td>{{ order.orderDate }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Shipping</th>
+                                <th>Billing</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ dealer.shippingAddressLine1 }}</td>
+                                <td>{{ dealer.billingAddressLine1 }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ dealer.shippingAddressLine2 }}</td>
+                                <td>{{ dealer.billingAddressLine2 }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ dealer.shippingCity }}, {{ dealer.shippingState }} {{ dealer.shippingZip }} {{ dealer.shippingCountry }}</td>
+                                <td>{{ dealer.billingCity }}, {{ dealer.billingState }} {{ dealer.billingZip }} {{ dealer.billingCountry }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a class="btn btn-outline-primary btn-lg btn-block" href="/dealers/{{ dealer.id }}/update">Update</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div style="margin:30px"></div>
+            <h2>Orders List</h2>
+            <div class="card">
+                <div class="card-block">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order Number</th>
+                                <th>Customer Name</th>
+                                <th>Invoice Status</th>
+                                <th>Sent Date</th>
+                                <th>Order Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in dealerOrders %}
+                            <tr>
+                                <td><a class="btn btn-outline-primary btn btn-block" href="/orders/{{ order.orderNumber }}">{{ order.orderNumber }}</a></td>
+                                <td>{{ order.lastName }}</td>
+                                <td>{{ order.invoiceStatus }}</td>
+                                <td>{{ order.invoiceSentDate }}</td>
+                                <td>{{ order.orderDate }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <a class="btn btn-outline-primary btn-lg btn-block" style="margin-bottom:40px" href="/orders/new">New Order</a>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 {% endblock %}

@@ -1,0 +1,248 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="col" style="margin-top:80px"/>
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-9">
+            <h3>Electrical Check 100% (nominally 120VAC)</h3>
+            <form method="post">
+                <div class="card" style="margin-top:20px; margin-bottom:50px">
+                    <div class="card-block">
+                        <ul>
+                            <li>Turn variac to 120VAC. Measure:
+                                <ul>
+                                    <div class="form-group row">
+                                        <label for="acVoltage" class="col-7 col-form-label"><li>AC line voltage<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="acVoltage" name="acVoltage" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="bias" class="col-7 col-form-label"><li>Bias - nominally <strong>-64VDC</strong><span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="bias" name="bias" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="plate" class="col-7 col-form-label"><li>Plate - nominally <strong>+363VDC</strong><span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="plate" name="plate" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="screen" class="col-7 col-form-label"><li>Screen - nominally <strong>+725VDC</strong><span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="screen" name="screen" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="filament" class="col-7 col-form-label"><li>Filament voltage at source - nominally <strong>6.3VAC</strong><span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="filament" name="filament" required>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </li>
+                            <li><strong>Power handling</strong> - Set the signal generator to the frequencies below and measure output voltage just before clipping.
+                                <ul>
+                                    <div class="form-group row">
+                                        <label for="1kMax" class="col-7 col-form-label"><li>1kHz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="1kMax" name="1kMax" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="30kMax" class="col-7 col-form-label"><li>30kHz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="30kMax" name="30kMax" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="30Max" class="col-7 col-form-label"><li>30Hz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="30Max" name="30Max" required>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </li>
+                            <li><strong>Frequency response</strong> - Set the signal generator to 1kHz. Turn the volume control up on the signal generator until the voltmeter reads 10VAC. Measure:
+                                <ul>
+                                    <div class="form-group row">
+                                        <label for="20Hz" class="col-7 col-form-label"><li>20Hz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="20Hz" name="20Hz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="28Hz" class="col-7 col-form-label"><li>28Hz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="28Hz" name="28Hz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="39Hz" class="col-7 col-form-label"><li>39Hz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="39Hz" name="39Hz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="54Hz" class="col-7 col-form-label"><li>54Hz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="54Hz" name="54Hz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="80Hz" class="col-7 col-form-label"><li>80Hz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="80Hz" name="80Hz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="100Hz" class="col-7 col-form-label"><li>100Hz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="100Hz" name="100Hz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="140Hz" class="col-7 col-form-label"><li>140Hz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="140Hz" name="140Hz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="200Hz" class="col-7 col-form-label"><li>200Hz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="200Hz" name="200Hz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="280Hz" class="col-7 col-form-label"><li>280Hz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="280Hz" name="280Hz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="380Hz" class="col-7 col-form-label"><li>380Hz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="380Hz" name="380Hz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="520Hz" class="col-7 col-form-label"><li>520Hz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="520Hz" name="520Hz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="720Hz" class="col-7 col-form-label"><li>720Hz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="720Hz" name="720Hz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="1kHz" class="col-7 col-form-label"><li>1kHz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="1kHz" name="1kHz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="1.4kHz" class="col-7 col-form-label"><li>1.4kHz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="1.4kHz" name="1.4kHz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="1.9kHz" class="col-7 col-form-label"><li>1.9kHz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="1.9kHz" name="1.9kHz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="2.6kHz" class="col-7 col-form-label"><li>2.6kHz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="2.6kHz" name="2.6kHz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="3.6kHz" class="col-7 col-form-label"><li>3.6kHz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="3.6kHz" name="3.6kHz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="5kHz" class="col-7 col-form-label"><li>5kHz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="5kHz" name="5kHz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="6.9kHz" class="col-7 col-form-label"><li>6.9kHz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="6.9kHz" name="6.9kHz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="10kHz" class="col-7 col-form-label"><li>10kHz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="10kHz" name="10kHz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="13kHz" class="col-7 col-form-label"><li>13kHz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="13kHz" name="13kHz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="18kHz" class="col-7 col-form-label"><li>18kHz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="18kHz" name="18kHz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="25kHz" class="col-7 col-form-label"><li>25kHz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="25kHz" name="25kHz" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="34kHz" class="col-7 col-form-label"><li>34kHz<span class="required-form-field">*</span></li></label>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" id="34kHz" name="34kHz" required>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </li>
+                            <div class="form-group row">
+                                <label for="noise" class="col-7 col-form-label"><li><strong>Noise</strong> - Turn the signal generator off and turn the volume control on the amp all the way down. Measure the noise on the voltmeter<span class="required-form-field">*</span></li></label>
+                                <div class="col-2">
+                                    <input type="text" class="form-control" id="noise" name="noise" required>
+                                </div>
+                            </div>
+                            <li><strong>Bias range</strong>
+                                <ul>
+                                <div class="form-group row">
+                                    <label for="biasMin" class="col-7 col-form-label"><li>Min<span class="required-form-field">*</span></li></label>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="biasMin" name="biasMin" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="biasMax" class="col-7 col-form-label"><li>Max<span class="required-form-field">*</span></li></label>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="biasMax" name="biasMax" required>
+                                    </div>
+                                </div>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <button type="submit" style="margin-top:30px" class="btn btn-outline-primary btn-lg btn-block">Next</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock %}

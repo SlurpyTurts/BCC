@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container" style="margin-top:5em; margin-bottom:3em;">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-block">
+                    {% for inquiry in inquiry %}
+                    <table cellpadding="5">
+                        <tr>
+                            <td>Name: </td>
+                            <td><strong>{{ inquiry.firstName }} {{ inquiry.lastName }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Date: </td>
+                            <td><strong>{{ inquiry.date }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Subject: </td>
+                            <td><strong>{{ inquiry.subject }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Message: </td>
+                            <td><strong>{{ inquiry.message }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>City: </td>
+                            <td><strong>{{ inquiry.city }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>State: </td>
+                            <td><strong>{{ inquiry.state }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Country: </td>
+                            <td><strong>{{ inquiry.country }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Date: </td>
+                            <td><strong>{{ inquiry.date }}</strong></td>
+                        </tr>
+                    </table>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container" style="margin-top:80px">
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-outline-primary btn-lg btn-block" style="margin-bottom:40px" href="/inventory/transaction">New Inventory Transaction</a>
+            <h3>Browse Inventory</h3>
+            <div class="card">
+                <div class="card-block">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Quantity</th>
+                                <th>Location From</th>
+                                <th>Location To</th>
+                                <th>Transaction Date</th>
+                                <th>Note</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transaction in transactions %}
+                            <tr>
+                                <td scope="row">
+                                    {{ transaction.quantity }}
+                                </td>
+                                <td scope="row">
+                                    {{ transaction.locationFrom }}
+                                </td>
+                                <td scope="row">
+                                    {{ transaction.locationTo }}
+                                </td>
+                                <td scope="row">
+                                    {{ transaction.transactionDate }}
+                                </td>
+                                <td scope="row">
+                                    {{ transaction.note }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <a class="btn btn-outline-primary btn-lg btn-block" style="margin-top:40px; margin-bottom:40px" href="/inventory">Return To Overview</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
