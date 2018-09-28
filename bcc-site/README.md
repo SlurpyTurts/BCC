@@ -12,11 +12,16 @@ This project requires python and pip to be installed. Most likely you already ha
 
 ## One time setup
 
-These commands are only needed the first time you setup the project. After this, don't worry about it.
+You will need to make sure you have the following installed
 
-    ./first_time_setup.sh
+- python
+- pip
 
 ## Development
+
+Install dependencies by running
+
+    pip install -r requirements.txt
 
 If you have a new terminal open you have to run
 
@@ -27,7 +32,7 @@ The site should now be running on port 5000
 
 ## Testing
 
-Run `python setup.py test` to see the tests pass.
+Run `pytest` to see the tests pass.
 
 ## Database connectivity
 
@@ -37,5 +42,5 @@ https://github.com/PyMySQL/PyMySQL
 
 ## A note about third party libraries
 
-If you are need another library in the future, make sure to add it to the `setup.py` and then simply run `pip install --editable .`. This command
-reads dependencies declared in the setup file and automatically installs them.
+If you are need another library in the future, make sure to add it to the `requirements.txt` and then simply run `pip install -r requirements.txt`. This command
+reads dependencies declared in the dependency file and automatically installs them.
