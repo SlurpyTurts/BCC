@@ -1,2 +1,3 @@
 .DS_Store
+bcc-site/bcc.egg-info
 *.pyc
