@@ -6,7 +6,7 @@ class DealerRepository:
         connection = db_connection.get_connection()
         try:
             with connection.cursor() as cursor:
-                sql = "SELECT * FROM bcc.dealer WHERE id > %s AND id <= %s"
+                sql = "SELECT * FROM dealer WHERE id > %s AND id <= %s"
                 cursor.execute(sql, (start_id, start_id + number_of_dealers))
                 return cursor.fetchall()
         finally:
@@ -16,7 +16,7 @@ class DealerRepository:
         connection = db_connection.get_connection()
         try:
             with connection.cursor() as cursor:
-                sql = "SELECT * FROM bcc.dealer"
+                sql = "SELECT * FROM dealer"
                 cursor.execute(sql)
                 return cursor.fetchall()
         finally:
@@ -26,7 +26,7 @@ class DealerRepository:
         connection = db_connection.get_connection()
         try:
             with connection.cursor() as cursor:
-                sql = "SELECT * FROM bcc.dealer WHERE id = %s"
+                sql = "SELECT * FROM dealer WHERE id = %s"
                 cursor.execute(sql, dealer_id)
                 return cursor.fetchall()
         finally:
@@ -36,7 +36,7 @@ class DealerRepository:
         connection = db_connection.get_connection()
         try:
             with connection.cursor() as cursor:
-                sql = """SELECT orderNumber, contact.lastName, orderDate, invoiceSentDate, invoiceStatus
+                sql = """SELECT orderNumber, contact.lastName, orderDate, invoiceSentDate, orderStatus
                 FROM orderOverview
                 INNER JOIN contact ON orderOverview.customerid = contact.id
                 WHERE orderOverview.dealerID = %s;"""
