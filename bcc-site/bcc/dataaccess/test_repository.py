@@ -1,12 +1,6 @@
-import db_connection
+import base_data_access
+data_access = base_data_access.BaseDataAccess()
 
 class TestRepository:
     def set_amp_test(self):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = "SELECT * FROM todo ORDER BY dateUpdated DESC"
-                cursor.execute(sql)
-                return cursor.fetchall()
-        finally:
-            connection.close()
+        data_access.select_request("SELECT * FROM todo ORDER BY dateUpdated DESC")

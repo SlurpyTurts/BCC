@@ -1,12 +1,6 @@
-import db_connection
+import base_data_access
+data_access = base_data_access.BaseDataAccess()
 
 class FreightRepository:
     def get_freight_carrier_list(self):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = "SELECT * FROM freight"
-                cursor.execute(sql)
-                return cursor.fetchall()
-        finally:
-            connection.close()
+        return data_access.select_request("SELECT * FROM freight")
