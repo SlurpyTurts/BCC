@@ -16,7 +16,7 @@ def update_standard_purchase_price(part, moq, supplierPartNumber):
     supplier_repo.set_standard_purchase_price(part, moq, supplierPartNumber)
     part_price = supplier_repo.get_part_price(part, moq, supplierPartNumber)
     part_repo.update_standard_purchase_price(part, part_price)
-    return redirect(url_for('part_detail', part_number=part))
+    return redirect(url_for('parts.part_detail', part_number=part))
 
 @supplier_blueprint.route('/parts/<int:part_number>')
 def part_detail(part_number):
@@ -34,7 +34,7 @@ def set_part_source(part_number):
         part_MOQ=request.form['partMOQ']
         part_unit_price=request.form['partUnitPrice']
         part_repo.set_part_supplier_update(part_supplier, part_number, supplier_part_number, supplier_link, part_unit_price, part_MOQ)
-        return redirect(url_for('part_detail', part_number=part_number))
+        return redirect(url_for('parts.part_detail', part_number=part_number))
     else:
         suppliers=supplier_repo.get_supplier_list(0, supplier_repo.get_max_supplier_id())
         return render_template('part_add_source.html', part_number=part_number, suppliers=suppliers)
@@ -74,7 +74,7 @@ def add_new_supplier():
             supplier_repo.set_new_supplier(supplier, website, status, shipping_address_line_1, shipping_address_line_2,
                                            shipping_city, shipping_state, shipping_zip, shipping_country,billing_address_line_1,
                                            billing_address_line_2, billing_city, billing_state, billing_zip, billing_country)
-            return redirect(url_for('suppliers_page'))
+            return redirect(url_for('supplier.suppliers_page'))
     return render_template('supplier_new.html')
 
 @supplier_blueprint.route('/suppliers/<int:supplier_id>')

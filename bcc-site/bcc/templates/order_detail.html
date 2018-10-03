@@ -84,7 +84,7 @@
                                                         {{ order.orderStatus }}
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="{{ url_for('update_order_status', order_number=order.orderNumber, new_status='OPEN') }}">OPEN</a>
+                                                        <a class="dropdown-item" href="{{ url_for('order.update_order_status', order_number=order.orderNumber, new_status='OPEN') }}">OPEN</a>
                                                         <a class="dropdown-item" href="#">CLOSED</a>
                                                         <a class="dropdown-item" href="#">CANCELLED</a>
                                                     </div>

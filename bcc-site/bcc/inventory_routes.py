@@ -23,7 +23,7 @@ def set_inventory_transaction():
         note=request.form['note']
         transaction_date=request.form['transactionDate']
         inv_repo.set_inv_transaction(part_number, quantity, inventory_from, inventory_to, note, transaction_date)
-        return redirect(url_for('inventory_page'))
+        return redirect(url_for('inventory.inventory_page'))
     part_number=request.args.get('partNumber')
     return render_template('inventory_transaction.html', error=error, locations=inventory_locations)
 

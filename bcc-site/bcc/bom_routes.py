@@ -23,7 +23,7 @@ def bom_tree(part_number):
         if part_ref_des == '' or part_ref_des == 'None':
             part_ref_des = None
         bom_repo.set_new_bom_child(part_number, child_part_number, part_qty, part_ref_des)
-        return redirect(url_for('bom_tree', part_number=part_number))
+        return redirect(url_for('bom.bom_tree', part_number=part_number))
     else:
         if request.args.get('level'):
             levels = request.args.get('level')
@@ -41,7 +41,7 @@ def bom_update(parent_part, child_part):
         if ref_des == '' or ref_des == 'None':
             ref_des = None
         bom_repo.update_bom_relationship(parent_part, child_part, quantity, ref_des)
-        return redirect(url_for('bom_tree', part_number=parent_part))
+        return redirect(url_for('bom.bom_tree', part_number=parent_part))
     else:
         bom_relationship=bom_repo.get_bom_relationship(parent_part, child_part)
         return render_template('bom_edit.html', bom_relationship=bom_relationship)
@@ -49,4 +49,4 @@ def bom_update(parent_part, child_part):
 @bom_blueprint.route('/delete_bom_relationship/<int:parent>/<int:child>')
 def delete_bom_relationship(parent, child):
     bom_repo.remove_bom_relationship(parent, child)
-    return redirect(url_for('bom_tree', part_number=parent))
+    return redirect(url_for('bom.bom_tree', part_number=parent))

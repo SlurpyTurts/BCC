@@ -43,7 +43,7 @@ def create_new_part():
         part_status = request.form['partStatus']
         part_unit = request.form['partUnit']
         part_repo.set_new_part(part_type+part_number, part_description, PTSC1, PTSC2, PTSC3, part_unit, part_status)
-        return redirect(url_for('part_detail', part_number=part_type+part_number))
+        return redirect(url_for('parts.part_detail', part_number=part_type+part_number))
     else:
         return render_template('part_new.html', part_status_list=part_repo.get_part_status_list(), part_unit_list=part_repo.get_part_unit_list(), part_type_list=part_repo.get_part_type_list(), part_family_list=part_repo.get_part_family_list())
 
@@ -60,7 +60,7 @@ def update_part(part_number):
         part_purchase_price = request.form['standardPurchasePrice']
         part_sell_price = request.form['standardSellPrice']
         part_repo.update_part(part_description, PTSC1, PTSC2, PTSC3, part_status, part_unit, part_purchase_price, part_sell_price, part_number)
-        return redirect(url_for('part_detail', part_number=part_number))
+        return redirect(url_for('parts.part_detail', part_number=part_number))
     else:
         part_unit = part_repo.get_part_unit_list()
         part_status = part_repo.get_part_status_list()

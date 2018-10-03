@@ -11,12 +11,12 @@ terms_repo = terms_repository.TermsRepository()
 @order_blueprint.route('/delete_order_line/<int:order_number>/<int:line_item>')
 def delete_order_line(order_number, line_item):
     order_repo.remove_order_line(order_number, line_item)
-    return redirect(url_for('order_detail_page', order_number=order_number))
+    return redirect(url_for('order.order_detail_page', order_number=order_number))
 
 @order_blueprint.route('/update_order_status/<int:order_number>/string:new_status')
 def update_order_status(order_number, new_status):
     order_repo.update_order_status(order_number, new_status)
-    return redirect(url_for('order_detail_page', order_number=order_number))
+    return redirect(url_for('order.order_detail_page', order_number=order_number))
 
 @order_blueprint.route('/orders')
 def orders_page():
@@ -55,7 +55,7 @@ def order_add_line(order_number):
             if unit_discount is None:
                 unit_discount = 0
             order_repo.set_new_order_line(order_number, part_number, quantity, unit_discount)
-            return redirect(url_for('order_detail_page', order_number=order_number))
+            return redirect(url_for('order.order_detail_page', order_number=order_number))
     return render_template('order_line_add.html', order_number=order_number)
 
 @order_blueprint.route('/orders/<int:order_number>/<int:line_item>/lineEdit', methods=['GET','POST'])
@@ -68,7 +68,7 @@ def edit_order_line(order_number, line_item):
             if unit_discount is None:
                 unit_discount = 0
             order_repo.update_order_line(order_number, line_item, quantity, unit_discount)
-            return redirect(url_for('order_detail_page', order_number=order_number))
+            return redirect(url_for('order.order_detail_page', order_number=order_number))
     return render_template('order_line_edit.html', line_detail=order_repo.get_order_line_detail(order_number, line_item))
 
 @order_blueprint.route('/orders/<int:order_number>/addPayment', methods=['GET','POST'])
@@ -80,7 +80,7 @@ def order_add_payment(order_number):
         payment_reference = request.form['paymentReference']
         if order_number and payment_amount and payment_method:
             order_repo.set_new_order_payment(order_number, payment_amount, payment_method, payment_reference)
-            return redirect(url_for('order_detail_page', order_number=order_number))
+            return redirect(url_for('order.order_detail_page', order_number=order_number))
     return render_template('order_payment_add.html', order_number=order_number)
 
 @order_blueprint.route('/orders/<int:order_number>/addShipment', methods=['GET','POST'])
@@ -97,7 +97,7 @@ def order_add_shipment(order_number):
         shipment_cost = request.form['shipmentCost']
         if order_number and shipment_date and shipment_carrier:
             order_repo.set_new_order_shipment(order_number, shipment_item, shipment_serial, shipment_date, shipment_carrier, shipping_method, tracking_number, shipment_cost)
-            return redirect(url_for('order_detail_page', order_number=order_number))
+            return redirect(url_for('order.order_detail_page', order_number=order_number))
     return render_template('order_shipment_add.html', order_number=order_number, carrier_list=carrier_list)
 
 @order_blueprint.route('/orders/new', methods=['GET','POST'])
@@ -121,7 +121,7 @@ def create_new_order():
             cust_number = contact_repo.get_max_cust_id()
             order_repo.set_new_order(dealer, terms, cust_number)
             order_number = order_repo.get_max_order_number()
-            return redirect(url_for('order_detail_page',order_number=order_number))
+            return redirect(url_for('order.order_detail_page',order_number=order_number))
     return render_template('order_new.html',dealers=dealer_repo.get_full_dealer_list(), terms=terms_repo.get_terms_list())
 
 
