@@ -1,59 +1,26 @@
-import db_connection
+import db_connection, base_data_access
+
+data_access = base_data_access.BaseDataAccess()
 
 class DealerRepository:
 
     def get_dealer_list(self, start_id, number_of_dealers):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = "SELECT * FROM bcc.dealer WHERE id > %s AND id <= %s"
-                cursor.execute(sql, (start_id, start_id + number_of_dealers))
-                return cursor.fetchall()
-        finally:
-            connection.close()
+        return data_access.select_request("SELECT * FROM dealer WHERE id > %s AND id <= %s", (start_id, start_id + number_of_dealers))
 
     def get_full_dealer_list(self):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = "SELECT * FROM bcc.dealer"
-                cursor.execute(sql)
-                return cursor.fetchall()
-        finally:
-            connection.close()
+        return data_access.select_request("SELECT * FROM dealer")
 
     def get_dealer_detail(self, dealer_id):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = "SELECT * FROM bcc.dealer WHERE id = %s"
-                cursor.execute(sql, dealer_id)
-                return cursor.fetchall()
-        finally:
-            connection.close()
+        return data_access.select_request("SELECT * FROM dealer WHERE id = %s", dealer_id)
 
     def get_order_list(self, dealer_id):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = """SELECT orderNumber, contact.lastName, orderDate, invoiceSentDate, invoiceStatus
+        return data_access.select_request("""SELECT orderNumber, contact.lastName, orderDate, invoiceSentDate, orderStatus
                 FROM orderOverview
                 INNER JOIN contact ON orderOverview.customerid = contact.id
-                WHERE orderOverview.dealerID = %s;"""
-                cursor.execute(sql, dealer_id)
-                return cursor.fetchall()
-        finally:
-            connection.close()
+                WHERE orderOverview.dealerID = %s;""", dealer_id)
 
     def get_dealer_status_list(self):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = "SELECT DISTINCT status from dealer"
-                cursor.execute(sql)
-                return cursor.fetchall()
-        finally:
-            connection.close()
+        return data_access.select_request("SELECT DISTINCT status from dealer")
 
     def set_new_dealer(self, dealer_name, dealer_website, dealer_status, billing_address_line_1, billing_address_line_2, billing_city, billing_state, billing_zip, billing_country, shipping_address_line_1, shipping_address_line_2, shipping_city, shipping_state, shipping_zip, shipping_country):
         connection = db_connection.get_connection()

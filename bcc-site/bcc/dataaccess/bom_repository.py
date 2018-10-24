@@ -1,6 +1,8 @@
 # All things that have to do with accessing and manipulating inventory go here
 
-import db_connection
+import db_connection, base_data_access
+
+data_access = base_data_access.BaseDataAccess()
 
 #BomItem represents an item of a bom at a particular level from the parent
 class BomItem:
@@ -13,23 +15,17 @@ class BomRepository:
 
     # TODO: We need to add a version indicator here
     def get_children_of_parent(self, parent_part_number, level):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = """
+        results = data_access.select_request("""
                     SELECT DISTINCT %s as level, bom.parent as parent, bom.child as child, part.description as description, bom.quantity as qty, bom.referenceDesignator as refDes, (SELECT standardPurchasePrice FROM part WHERE partNumber = bom.child) as standardPurchasePrice, bom.quantity * (SELECT standardPurchasePrice FROM part WHERE partNumber = bom.child) as linePrice
                     FROM bom
                     INNER JOIN part ON bom.child = part.partNumber
                     LEFT JOIN supplierPart ON bom.child = supplierPart.orgPartNumber
                     WHERE parent = %s
-                    """
-                cursor.execute(sql, (level, parent_part_number))
-                bom_items = []
-                for result in cursor.fetchall():
-                    bom_items.append(BomItem(result, level))
-                return bom_items
-        finally:
-            connection.close()
+                    """, (level, parent_part_number))
+        bom_items = []
+        for result in results:
+            bom_items.append(BomItem(result, level))
+        return bom_items
 
     def get_bom_of_parent(self, part_number, levels_to_show):
         # Using the queue make sure to use pop() and insert(0,X)
@@ -61,15 +57,7 @@ class BomRepository:
             connection.close()
 
     def get_bom_relationship(self, parent, child):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = """SELECT * FROM bom WHERE parent = %s AND child = %s"""
-                cursor.execute(sql, (parent, child))
-                connection.commit()
-                return cursor.fetchall()
-        finally:
-            connection.close()
+        return data_access.select_request("""SELECT * FROM bom WHERE parent = %s AND child = %s""", (parent, child))
 
     def update_bom_relationship(self, parent, child, qty, ref_des):
         connection = db_connection.get_connection()
@@ -101,10 +89,7 @@ class BomRepository:
             connection.close()
 
     def get_bom_cost(self, parent):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = """
+        return data_access.select_one("""
                 SELECT SUM(bom.linePrice) as bomPrice
                 FROM (SELECT DISTINCT bom.parent as parent, bom.child as child, part.description as description, bom.quantity as qty, bom.referenceDesignator as refDes, (SELECT standardPurchasePrice FROM part WHERE partNumber = bom.child) as standardPurchasePrice, bom.quantity * (SELECT standardPurchasePrice FROM part WHERE partNumber = bom.child) as linePrice
                     FROM bom
@@ -112,9 +97,4 @@ class BomRepository:
                     LEFT JOIN supplierPart ON bom.child = supplierPart.orgPartNumber
                     WHERE parent = %s)
                 as bom;
-                """
-                cursor.execute(sql, parent)
-                result = cursor.fetchone()
-                return result['bomPrice']
-        finally:
-            connection.close()
+                """, parent)['bomPrice']

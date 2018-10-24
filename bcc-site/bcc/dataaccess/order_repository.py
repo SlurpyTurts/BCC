@@ -1,11 +1,10 @@
-import db_connection
+import db_connection, base_data_access
+
+data_access = base_data_access.BaseDataAccess()
 
 class OrderRepository:
     def get_order_overview(self, order_start, number_of_orders):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = """SELECT orderOverview.orderNumber, orderOverview.orderDate, contact.firstName, contact.lastName, dealer.dealerName, orderOverview.dealerid, terms.defaultDescription as termsDescription, orderOverview.invoiceSentDate, orderOverview.orderStatus, orderOverview.termsid, SUM(pricing.grossPrice*orderLine.lineQuantity) as orderTotal, SUM(orderLine.lineDiscount*orderLine.lineQuantity) as orderDiscount
+        return data_access.select_request("""SELECT orderOverview.orderNumber, orderOverview.orderDate, contact.firstName, contact.lastName, dealer.dealerName, orderOverview.dealerid, terms.defaultDescription as termsDescription, orderOverview.invoiceSentDate, orderOverview.orderStatus, orderOverview.termsid, SUM(pricing.grossPrice*orderLine.lineQuantity) as orderTotal, SUM(orderLine.lineDiscount*orderLine.lineQuantity) as orderDiscount
                 FROM orderOverview
                 INNER JOIN orderLine ON orderOverview.orderNumber = orderLine.orderNumber
                 INNER JOIN pricing ON orderLine.partNumber = pricing.partNumber
@@ -13,17 +12,10 @@ class OrderRepository:
                 INNER JOIN dealer ON orderOverview.dealerid = dealer.id
                 INNER JOIN terms ON orderOverview.termsid = terms.id
                 GROUP BY orderLine.orderNumber
-                LIMIT %s, %s"""
-                cursor.execute(sql, (order_start, number_of_orders))
-                return cursor.fetchall()
-        finally:
-            connection.close()
+                LIMIT %s, %s""", (order_start, number_of_orders))
 
     def get_order_lines(self, order_number):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = """SELECT
+        return data_access.select_request("""SELECT
                             orderLine.partNumber,
                             part.description,
                             orderLine.lineQuantity,
@@ -34,75 +26,34 @@ class OrderRepository:
                         INNER JOIN orderLine ON orderOverview.orderNumber = orderLine.orderNumber
                         INNER JOIN pricing ON orderLine.partNumber = pricing.partNumber
                         INNER JOIN part ON orderLine.partNumber = part.partNumber
-                        WHERE orderOverview.orderNumber = %s"""
-                cursor.execute(sql, order_number)
-                return cursor.fetchall()
-        finally:
-            connection.close()
+                        WHERE orderOverview.orderNumber = %s""", order_number)
 
     def get_order_line_detail(self, order_number, lineItem):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = """SELECT *
+        return data_access.select_request("""SELECT *
                 FROM orderLine
-                WHERE orderNumber = %s AND partNumber = %s"""
-                cursor.execute(sql, (order_number,lineItem))
-                return cursor.fetchall()
-        finally:
-            connection.close()
+                WHERE orderNumber = %s AND partNumber = %s""", (order_number,lineItem))
 
     def get_order_payments(self, order_number):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = "SELECT transactionDate, amount, method FROM payment WHERE orderNumber = %s;"
-                cursor.execute(sql, order_number)
-                return cursor.fetchall()
-        finally:
-            connection.close()
+        return data_access.select_request("SELECT transactionDate, amount, method FROM payment WHERE orderNumber = %s;", order_number)
 
     def get_order_payments_total(self, order_number):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = """SELECT SUM(amount) as amount
+        return data_access.select_one("""SELECT SUM(amount) as amount
                         FROM payment
-                        WHERE orderNumber = %s"""
-                cursor.execute(sql, order_number)
-                result=cursor.fetchone()
-                return result['amount']
-        finally:
-            connection.close()
+                        WHERE orderNumber = %s""", order_number)['amount']
 
     def get_orders_count(self):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = "SELECT COUNT(*) as numberOfOrders FROM orderOverview"
-                cursor.execute(sql)
-                result = cursor.fetchone()
-                return result['numberOfOrders']
-        finally:
-            connection.close()
+        return data_access.select_one("SELECT COUNT(*) as numberOfOrders FROM orderOverview")['numberOfOrders']
 
     def get_order_shipments(self, order_number):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = """SELECT dateShipped, trackingNumber, partNumber, shipmentMethod, price, carrier
+        return data_access.select_request("""SELECT dateShipped, trackingNumber, partNumber, shipmentMethod, price, carrier
                         FROM orderShipping
-                        WHERE orderNumber = %s"""
-                cursor.execute(sql, order_number)
-                return cursor.fetchall()
-        finally:
-            connection.close()
+                        WHERE orderNumber = %s""", order_number)
 
     def get_order_info(self, order_number):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = """SELECT orderNumber, orderDate, dealer.id, dealer.dealerName, terms.defaultDescription, invoiceSentDate, orderStatus, DATE_ADD(invoiceSentDate, INTERVAL terms.periodDays DAY) as invoiceDueDate, CONCAT(contact.firstName," ",contact.lastName) as customerName
+        return data_access.select_request("""SELECT orderNumber, orderDate, dealer.id, dealer.dealerName,
+        terms.defaultDescription, invoiceSentDate, orderStatus, DATE_ADD(invoiceSentDate,
+        INTERVAL terms.periodDays DAY) as invoiceDueDate,
+        CONCAT(contact.firstName," ",contact.lastName) as customerName
                     FROM orderOverview
                     INNER JOIN dealer
                     ON orderOverview.dealerid = dealer.id
@@ -110,17 +61,13 @@ class OrderRepository:
                     ON orderOverview.termsid = terms.id
                     INNER JOIN contact
                     ON orderOverview.customerid = contact.id
-                    WHERE orderNumber = %s"""
-                cursor.execute(sql, order_number)
-                return cursor.fetchall()
-        finally:
-            connection.close()
+                    WHERE orderNumber = %s""", order_number)
 
+
+    # TODO WOAAHHHHH if you have to write SQL like this, something is wrong
+    # SQL databases should be treated as a CRUD store, not a number crunching calculator
     def get_order_total(self, order_number):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = """SELECT SUM(orderLines.linePrice) as orderTotal
+        return data_access.select_one("""SELECT SUM(orderLines.linePrice) as orderTotal
                 FROM(
                     SELECT orderLine.partNumber, part.description, orderLine.lineQuantity, orderLine.lineDiscount,
                         IF(orderOverview.termsid = 1, pricing.dealerNetPrice,
@@ -148,23 +95,10 @@ class OrderRepository:
                     INNER JOIN pricing ON orderLine.partNumber = pricing.partNumber
                     INNER JOIN part ON orderLine.partNumber = part.partNumber
                     WHERE orderOverview.orderNumber = %s
-                ) as orderLines"""
-                cursor.execute(sql, order_number)
-                result = cursor.fetchone()
-                return result['orderTotal']
-        finally:
-            connection.close()
+                ) as orderLines""", order_number)['orderTotal']
 
     def get_max_order_number(self):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = "SELECT MAX(orderNumber) as maxOrder FROM orderOverview"
-                cursor.execute(sql)
-                result = cursor.fetchone()
-                return result['maxOrder']
-        finally:
-            connection.close()
+        return data_access.select_one("SELECT MAX(orderNumber) as maxOrder FROM orderOverview")['maxOrder']
 
     def set_new_order(self, dealer, terms, cust_number):
         connection = db_connection.get_connection()

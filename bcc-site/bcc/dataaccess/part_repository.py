@@ -1,9 +1,12 @@
 
 # All things that have to do with accessing and manipulating inventory go here
 
-import db_connection
+import db_connection, base_data_access
 
 class PartRepository:
+
+    def __init__(self):
+        self.data_access = base_data_access.BaseDataAccess()
 
     def get_part_by_part_number(self, part_number):
         connection = db_connection.get_connection()
@@ -41,17 +44,11 @@ class PartRepository:
             connection.close()
 
     def get_parts(self, number_of_parts, part_start):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = """SELECT partNumber, description, standardPurchasePrice
+        return self.data_access.select_request("""SELECT partNumber, description, standardPurchasePrice
                 FROM part
                 ORDER BY partNumber
-                LIMIT %s, %s"""
-                cursor.execute(sql, (number_of_parts, part_start))
-                return cursor.fetchall()
-        finally:
-            connection.close()
+                LIMIT %s, %s""",
+                (number_of_parts, part_start))
 
     def get_part_status_list(self):
         connection = db_connection.get_connection()
@@ -126,26 +123,10 @@ class PartRepository:
             connection.close()
 
     def get_max_partNumber(self):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = "SELECT COUNT(*) as numberOfParts FROM part"
-                cursor.execute(sql)
-                result = cursor.fetchone()
-                return result['numberOfParts']
-        finally:
-            connection.close()
+        return self.data_access.select_one("SELECT COUNT(*) as numberOfParts FROM part")['numberOfParts']
 
     def get_part_description(self, part_number):
-        connection = db_connection.get_connection()
-        try:
-            with connection.cursor() as cursor:
-                sql = "SELECT description FROM part WHERE partNumber = %s"
-                cursor.execute(sql, part_number)
-                result = cursor.fetchone()
-                return result['description']
-        finally:
-            connection.close()
+        return self.data_access.select_one("SELECT description FROM part WHERE partNumber = %s", part_number)['description']
 
     def set_part_supplier_update(self, supplier_id, part_number, supplier_part_number, supplier_link, purchase_unit_price, purchase_MOQ):
         connection = db_connection.get_connection()
@@ -176,10 +157,6 @@ class PartRepository:
                 return cursor.fetchall()
         finally:
             connection.close()
-
-
-
-
 
     def update_part(self, part_description, PTSC1, PTSC2, PTSC3, part_status, part_unit, part_purchase_price, part_sell_price, part_number):
         connection = db_connection.get_connection()
