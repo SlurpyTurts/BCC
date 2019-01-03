@@ -47,15 +47,9 @@
         <li class="nav-item">
           <a class="nav-link" href="/inquiry">Inquiry</a>
         </li>
-        {% if not session.logged_in %}
         <li class="nav-item">
-          <a class="nav-link" href="/login">Login</a>
+          <a class="nav-link disabled" href="#">{{ session['email'] }}</a>
         </li>
-        {% else %}
-        <li class="nav-item">
-          <a class="nav-link" href="/logout">{{ session.username }}(Logout)</a>
-        </li>
-        {% endif %}
       </ul>
     </div>
   </div>

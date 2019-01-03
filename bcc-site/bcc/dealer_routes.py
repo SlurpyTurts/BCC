@@ -1,9 +1,11 @@
 from flask import render_template, Blueprint, redirect, url_for, request
 from dataaccess import dealer_repository
+from flask_login import login_required
 dealer_blueprint = Blueprint('dealer', __name__)
 dealer_repo = dealer_repository.DealerRepository()
 
 @dealer_blueprint.route('/dealers')
+@login_required
 def dealers_page():
     page = request.args.get('page')
     if page is None:
@@ -17,10 +19,12 @@ def dealers_page():
     return render_template('dealers.html', dealer_status=dealer_repo.get_dealer_status_list(), dealers=dealer_repo.get_dealer_list(dealer_start, number_of_dealers), page=page, max_page=5)
 
 @dealer_blueprint.route('/dealers/<int:dealer_id>')
+@login_required
 def dealer_detail_page(dealer_id):
     return render_template('dealer_detail.html', dealers = dealer_repo.get_dealer_detail(dealer_id), dealerOrders = dealer_repo.get_order_list(dealer_id))
 
 @dealer_blueprint.route('/dealers/new', methods=['GET','POST'])
+@login_required
 def create_new_dealer():
     error = None
     if request.method == 'POST':
@@ -47,6 +51,7 @@ def create_new_dealer():
     return render_template('dealer_new.html', error=error)
 
 @dealer_blueprint.route('/dealers/<int:dealer_id>/update', methods=['GET', 'POST'])
+@login_required
 def set_dealer_update(dealer_id):
     if request.method == 'POST':
         dealer_name = request.form['dealerName']

@@ -1,5 +1,6 @@
 from flask import render_template, Blueprint, redirect, url_for, request
 from dataaccess import supplier_repository, part_repository, contact_repository
+from flask_login import login_required
 supplier_blueprint = Blueprint('supplier', __name__)
 supplier_repo = supplier_repository.SupplierRepository()
 
@@ -10,6 +11,7 @@ part_repo = part_repository.PartRepository()
 contact_repo = contact_repository.ContactRepository()
 
 @supplier_blueprint.route('/update_standard_purchase_price/<int:part>/<int:moq>/<string:supplierPartNumber>')
+@login_required
 def update_standard_purchase_price(part, moq, supplierPartNumber):
     supplierPartNumber.replace("%20", " ")
     supplier_repo.remove_standard_purchase_price(part)
@@ -19,6 +21,7 @@ def update_standard_purchase_price(part, moq, supplierPartNumber):
     return redirect(url_for('parts.part_detail', part_number=part))
 
 @supplier_blueprint.route('/parts/<int:part_number>')
+@login_required
 def part_detail(part_number):
     parents = part_repo.get_parents(part_number)
     part = part_repo.get_part_by_part_number(part_number)
@@ -26,6 +29,7 @@ def part_detail(part_number):
     return render_template('part_detail.html', parents=parents, part=part, supplier_parts=supplier_parts)
 
 @supplier_blueprint.route('/parts/<int:part_number>/addsource', methods=['GET','POST'])
+@login_required
 def set_part_source(part_number):
     if request.method == 'POST':
         part_supplier=request.form['supplierName']
@@ -40,6 +44,7 @@ def set_part_source(part_number):
         return render_template('part_add_source.html', part_number=part_number, suppliers=suppliers)
 
 @supplier_blueprint.route('/suppliers')
+@login_required
 def suppliers_page():
     page = request.args.get('page')
     if page is None:
@@ -53,6 +58,7 @@ def suppliers_page():
     return render_template('supplier_overview.html', suppliers=supplier_repo.get_supplier_list(supplier_start, number_of_suppliers), page=page, max_page=5)
 
 @supplier_blueprint.route('/suppliers/new', methods=['GET','POST'])
+@login_required
 def add_new_supplier():
     if request.method == 'POST':
         supplier=request.form['supplierName']
@@ -78,6 +84,7 @@ def add_new_supplier():
     return render_template('supplier_new.html')
 
 @supplier_blueprint.route('/suppliers/<int:supplier_id>')
+@login_required
 def get_supplier_detail(supplier_id):
     return render_template('supplier_detail.html', suppliers=supplier_repo.get_supplier_detail(supplier_id),
                            contacts=contact_repo.get_contact_by_supplier(supplier_id),

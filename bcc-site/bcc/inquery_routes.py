@@ -1,9 +1,11 @@
 from flask import request, render_template, Blueprint
 from dataaccess import inquiry_repository
+from flask_login import login_required
 inquery_blueprint = Blueprint('inquiry', __name__)
 inquiry_repo = inquiry_repository.InquiryRepository()
 
 @inquery_blueprint.route('/inquiry', methods=['GET', 'POST'])
+@login_required
 def website_inquiry_overview():
     if request.method == 'POST':
         first_name = request.form['firstName']
@@ -23,6 +25,7 @@ def website_inquiry_overview():
         return render_template('inquiry_overview.html', inquiries=inquiries)
 
 @inquery_blueprint.route('/inquiry/<int:inquiry_id>')
+@login_required
 def website_inquiry_detail(inquiry_id):
     inquiry=inquiry_repo.get_inquiry_detail(inquiry_id)
     return render_template('inquiry_detail.html', inquiry=inquiry)

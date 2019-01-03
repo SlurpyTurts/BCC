@@ -1,3 +1,3 @@
 #!/bin/bash
 
-FLASK_APP=bcc flask run
+python bcc/bcc.py

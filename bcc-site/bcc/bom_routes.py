@@ -1,10 +1,12 @@
 from flask import request, render_template, Blueprint, redirect, url_for
 from dataaccess import bom_repository, part_repository
+from flask_login import login_required
 bom_blueprint = Blueprint('bom', __name__)
 bom_repo = bom_repository.BomRepository()
 part_repo = part_repository.PartRepository()
 
 @bom_blueprint.route('/bom')
+@login_required
 def bom_builder_page():
     part_number = request.args.get('part_number')
     levels = request.args.get('levels')
@@ -15,6 +17,7 @@ def bom_builder_page():
     return render_template('bom_search.html')
 
 @bom_blueprint.route('/bom/<int:part_number>', methods=['GET','POST'])
+@login_required
 def bom_tree(part_number):
     if request.method == 'POST':
         child_part_number=request.form['partNumber']
@@ -34,6 +37,7 @@ def bom_tree(part_number):
         return render_template('bom_detail.html', parts=parts, part_number=part_number, part_description=part_description, bom_cost=bom_repo.get_bom_cost(part_number), levels=levels)
 
 @bom_blueprint.route('/bom/<int:parent_part>/<int:child_part>', methods=['GET','POST'])
+@login_required
 def bom_update(parent_part, child_part):
     if request.method == 'POST':
         quantity=request.form['quantity']
@@ -47,6 +51,7 @@ def bom_update(parent_part, child_part):
         return render_template('bom_edit.html', bom_relationship=bom_relationship)
 
 @bom_blueprint.route('/delete_bom_relationship/<int:parent>/<int:child>')
+@login_required
 def delete_bom_relationship(parent, child):
     bom_repo.remove_bom_relationship(parent, child)
     return redirect(url_for('bom.bom_tree', part_number=parent))
