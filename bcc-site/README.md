@@ -17,6 +17,19 @@ You will need to make sure you have the following installed
 - python
 - pip
 
+Next, you need to get the application registered for single sign on with google. To do this:
+
+    1. Go to https://console.developers.google.com/apis/credentials
+    2. Register a new application
+    3. Set `Authorized JavaScript origins`
+        a. 	`https://127.0.0.1:5000`
+        b.  `https://localhost:5000`
+    4. Set Authorized redirect URIs
+        a. 	`https://127.0.0.1:5000/oauth2callback`
+        b.  `https://localhost:5000/oauth2callback`
+    5. On your app details page in the google console, click `download json`
+    6. put the `client_secret.json` file in this directory, don't check it in to source control
+
 ## Development
 
 Install dependencies by running

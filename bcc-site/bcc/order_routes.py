@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint, redirect, url_for, request
 from dataaccess import order_repository, freight_repository, contact_repository, dealer_repository, terms_repository
 import math
+from flask_login import login_required
 order_blueprint = Blueprint('order', __name__)
 order_repo = order_repository.OrderRepository()
 freight_repo = freight_repository.FreightRepository()
@@ -9,16 +10,19 @@ dealer_repo = dealer_repository.DealerRepository()
 terms_repo = terms_repository.TermsRepository()
 
 @order_blueprint.route('/delete_order_line/<int:order_number>/<int:line_item>')
+@login_required
 def delete_order_line(order_number, line_item):
     order_repo.remove_order_line(order_number, line_item)
     return redirect(url_for('order.order_detail_page', order_number=order_number))
 
 @order_blueprint.route('/update_order_status/<int:order_number>/string:new_status')
+@login_required
 def update_order_status(order_number, new_status):
     order_repo.update_order_status(order_number, new_status)
     return redirect(url_for('order.order_detail_page', order_number=order_number))
 
 @order_blueprint.route('/orders')
+@login_required
 def orders_page():
     page = request.args.get('page')
     if page is None:
@@ -34,6 +38,7 @@ def orders_page():
     return render_template('order_overview.html', orders=orders, page=page, max_page=max_page)
 
 @order_blueprint.route('/orders/<int:order_number>')
+@login_required
 def order_detail_page(order_number):
     order_info=order_repo.get_order_info(order_number)
     order_lines=order_repo.get_order_lines(order_number)
@@ -45,6 +50,7 @@ def order_detail_page(order_number):
     return render_template('order_detail.html', order_info=order_info, order_lines=order_lines, payments=payments, order_total=order_total, payments_total=payments_total, shipments=shipments, customer_info=customer_info)
 
 @order_blueprint.route('/orders/<int:order_number>/addLine', methods=['GET','POST'])
+@login_required
 def order_add_line(order_number):
     error = None
     if request.method == 'POST':
@@ -59,6 +65,7 @@ def order_add_line(order_number):
     return render_template('order_line_add.html', order_number=order_number)
 
 @order_blueprint.route('/orders/<int:order_number>/<int:line_item>/lineEdit', methods=['GET','POST'])
+@login_required
 def edit_order_line(order_number, line_item):
     error = None
     if request.method == 'POST':
@@ -72,6 +79,7 @@ def edit_order_line(order_number, line_item):
     return render_template('order_line_edit.html', line_detail=order_repo.get_order_line_detail(order_number, line_item))
 
 @order_blueprint.route('/orders/<int:order_number>/addPayment', methods=['GET','POST'])
+@login_required
 def order_add_payment(order_number):
     error = None
     if request.method == 'POST':
@@ -84,6 +92,7 @@ def order_add_payment(order_number):
     return render_template('order_payment_add.html', order_number=order_number)
 
 @order_blueprint.route('/orders/<int:order_number>/addShipment', methods=['GET','POST'])
+@login_required
 def order_add_shipment(order_number):
     error = None
     carrier_list=freight_repo.get_freight_carrier_list()
@@ -101,6 +110,7 @@ def order_add_shipment(order_number):
     return render_template('order_shipment_add.html', order_number=order_number, carrier_list=carrier_list)
 
 @order_blueprint.route('/orders/new', methods=['GET','POST'])
+@login_required
 def create_new_order():
     error = None
     if request.method == 'POST':

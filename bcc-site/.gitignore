@@ -6,3 +6,4 @@ bcc_site.egg-info
 bcc.egg-info
 .cache
 venv
+client_secret.json

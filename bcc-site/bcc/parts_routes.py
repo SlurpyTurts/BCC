@@ -1,10 +1,12 @@
 import math
 from flask import render_template, Blueprint, redirect, url_for, request
 from dataaccess import part_repository
+from flask_login import login_required
 parts_blueprint = Blueprint('parts', __name__)
 part_repo = part_repository.PartRepository()
 
 @parts_blueprint.route('/parts')
+@login_required
 def part_search():
 
     page = request.args.get('page')
@@ -32,6 +34,7 @@ def part_search():
     return render_template('part_search.html')
 
 @parts_blueprint.route('/parts/new', methods=['GET','POST'])
+@login_required
 def create_new_part():
     if request.method == 'POST':
         part_type = request.form['partType']
@@ -48,6 +51,7 @@ def create_new_part():
         return render_template('part_new.html', part_status_list=part_repo.get_part_status_list(), part_unit_list=part_repo.get_part_unit_list(), part_type_list=part_repo.get_part_type_list(), part_family_list=part_repo.get_part_family_list())
 
 @parts_blueprint.route('/parts/<int:part_number>/update', methods=['GET','POST'])
+@login_required
 def update_part(part_number):
     error = None
     if request.method == 'POST':
