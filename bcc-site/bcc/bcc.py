@@ -83,6 +83,10 @@ def update_order_status(order_number, new_status):
 
 
 
+#----------------------------------------------------------------
+#BOM
+#Bill Of Material data for assemblies.
+#Stored in supplierPart, supplier, part, partFamily, bom.
 
 
 @app.route('/bom')
@@ -134,7 +138,10 @@ def bom_update(parent_part, child_part):
 
 
 
-
+#----------------------------------------------------------------
+#INVENTORY
+#inventory level data for parts.
+#Stored in inventory, inventoryLocation.
 
 @app.route('/inventory')
 def inventory_page():
@@ -178,7 +185,10 @@ def inv_by_loc(inv_loc):
 
 
 
-
+#----------------------------------------------------------------
+#PART
+#part data.
+#Stored in part, partFamily, partStatus, partType, partUnitType.
 
 @app.route('/parts/<int:part_number>')
 def part_detail(part_number):
@@ -271,7 +281,10 @@ def set_part_source(part_number):
 
 
 
-
+#----------------------------------------------------------------
+#ORDERS
+#information on outgoing org orders.
+#Stored in orderLine, orderOverview, orderShipping.
 
 @app.route('/orders')
 def orders_page():
@@ -386,7 +399,10 @@ def create_new_order():
 
 
 
-
+#----------------------------------------------------------------
+#SUPPLIERS
+#information on org suppliers. Suppliers provide parts to org.
+#Stored in supplier, supplierPart.
 
 @app.route('/suppliers')
 def suppliers_page():
@@ -436,7 +452,10 @@ def get_supplier_detail(supplier_id):
 
 
 
-
+#----------------------------------------------------------------
+#DEALERS
+#information on org dealers. order history, contact info, status.
+#Stored in dealer.
 
 @app.route('/dealers')
 def dealers_page():
@@ -511,7 +530,10 @@ def set_dealer_update(dealer_id):
 
 
 
-
+#----------------------------------------------------------------
+#LOGIN/LOGOUT
+#verifies user and logs user out of system.
+#Stored in userList.
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -541,7 +563,10 @@ def logout():
 
 
 
-
+#----------------------------------------------------------------
+#TODO
+#list of tasks to implement on site strcture and design.
+#Stored in todo.
 
 @app.route('/todo')
 def todo_overview_page():
@@ -571,7 +596,10 @@ def todo_new_page():
 
 
 
-
+#----------------------------------------------------------------
+#TEST
+#test information on finished good QC tests.
+#Stored in qcTestAmp, qcTestSpeaker, frequencyResponse.
 
 @app.route('/test')
 def test_overview_page():
@@ -657,7 +685,11 @@ def test_amp_new_electric_100percent(serial_number):
 
 
 
-
+#----------------------------------------------------------------
+#INQUIRY
+#inquiry information from bobcarvercorp.com forms.
+#stored in websiteInquiries.
+# This has been deprecated since moving to the new website September 2018. Inquiries are now stored in the Wix account management page.
 
 @app.route('/inquiry', methods=['GET', 'POST'])
 def website_inquiry_overview():
